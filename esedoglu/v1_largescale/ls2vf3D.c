@@ -58,8 +58,8 @@ void mexFunction( int nlhs, mxArray *plhs[],
   n2 = (int) mxGetScalar(prhs[6]); /* Dimension of grid. */
   n3 = (int) mxGetScalar(prhs[7]); /* Dimension of grid. */
 
-  //printf("n1 n2 n3 = %i %i %i\n",n1,n2,n3);
-  //printf("Npix = %i\n",Npix);
+  /* printf("n1 n2 n3 = %i %i %i\n",n1,n2,n3);
+     printf("Npix = %i\n",Npix); */
 
   /* Allocate memory and get pointer for output variables. */
   plhs[0] = mxCreateDoubleMatrix(Npix,1,mxREAL);	
@@ -102,7 +102,7 @@ void mexFunction( int nlhs, mxArray *plhs[],
     switch (test) {
 
       case 0 :
-        //printf("case 0\n");
+        /* printf("case 0\n"); */
         vf[k] = I3H(mx+my+mz+val) - I3H(mx+my-mz+val) -
                 I3H(mx-my+mz+val) + I3H(mx-my-mz+val) -
                 I3H(-mx+my+mz+val) + I3H(-mx+my-mz+val) +
@@ -111,46 +111,46 @@ void mexFunction( int nlhs, mxArray *plhs[],
         break;
 
       case 1 :
-        //printf("case 1\n");
+        /* printf("case 1\n"); */
         vf[k] = I2H(my+mz+val) - I2H(my-mz+val) +
                 I2H(-my-mz+val) - I2H(-my+mz+val);
         vf[k] = 2*vf[k]/(my*mz);
         break;
 
       case 2 :
-        //printf("case 2\n"); 
+        /* printf("case 2\n"); */
         vf[k] = I2H(mx+mz+val) - I2H(mx-mz+val) +
                 I2H(-mx-mz+val) - I2H(-mx+mz+val);
         vf[k] = 2*vf[k]/(mx*mz);
         break;
 
       case 4 :
-        //printf("case 4\n");
+        /* printf("case 4\n"); */
         vf[k] = I2H(mx+my+val) - I2H(mx-my+val) -
                 I2H(-mx+my+val) + I2H(-mx-my+val);
         vf[k] = 2*vf[k]/(mx*my);
         break;
 
       case 3 :
-        //printf("case 3\n");
+        /* printf("case 3\n"); */
         vf[k] = IH(mz+val) - IH(-mz+val);
         vf[k] = 4*vf[k]/mz;
         break;
 
       case 5 :
-        //printf("case 5\n");
+        /* printf("case 5\n"); */
         vf[k] = IH(my+val) - IH(-my+val);
         vf[k] = 4*vf[k]/my;
         break;
 
       case 6 :
-        //printf("case 6\n");
+        /* printf("case 6\n"); */
         vf[k] = IH(mx+val) - IH(-mx+val);
         vf[k] = 4*vf[k]/mx;
         break;
 
       case 7 :
-        //printf("case 7\n");
+        /* printf("case 7\n"); */
         vf[k] = 8*H(val);
         break;
 
