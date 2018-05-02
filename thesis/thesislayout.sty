@@ -1,0 +1,310 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Setup headings and title pages for chapters
+%
+%IMM PHD THESIS LAYOUT
+%Adopted from Henrik Aalborg Nielsen and Thomas Fabricius
+%Jan Larsen, IMM, DTU, Nov 2003
+
+%%%%%%%%%%%%%%%%%%%%%%%   page geometry
+
+\setlength{\parskip}{0.5\baselineskip}
+\setlength{\parindent}{0pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%   Headings
+
+\pagestyle{fancyplain}
+\addtolength{\headheight}{1.8pt}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\lhead[\fancyplain{}{\sffamily\bfseries\thepage}]%
+      {\fancyplain{}{\sffamily\bfseries\rightmark}}
+\rhead[\fancyplain{}{\sffamily\bfseries\leftmark}]%
+      {\fancyplain{}{\sffamily\bfseries\thepage}}
+\cfoot{}
+
+%%%%%%%%%%%%%%%%%%%%%%%   Chapters
+
+\ifx\thesislanguage\danishlang
+\renewcommand{\chaptername}{K a p i t e l }
+\renewcommand{\appendixname}{A p p e n d i k s }
+\else
+\renewcommand{\chaptername}{C a p � t u l o }
+\renewcommand{\appendixname}{A n e x o}
+\fi
+
+
+\def\@makechapterhead#1{%
+  \vspace*{50\p@}%
+  {\parindent \z@ \raggedright \normalfont
+   \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \large\scshape \@chapapp \space\space \Huge\upshape\thechapter
+        \par\nobreak
+        \vskip 20\p@
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \flushleft\parbox{\textwidth}{\raggedleft \sffamily\Huge\bfseries  #1}
+     \par\nobreak
+     \vskip 15pt
+     \hrule height 0.4pt
+    \vskip 80\p@
+  }}
+
+\def\@makeschapterhead#1{%
+  \vspace*{50\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \interlinepenalty\@M
+%    \flushleft\parbox{\textwidth}{\raggedleft \sffamily\Huge\bfseries  #1}
+     \sffamily\huge\bfseries  #1
+
+     \par\nobreak
+     \vskip 15pt
+     \hrule height 0.4pt
+    \vskip 80\p@
+  }}
+%
+% END - Setup headings and title pages for chapters
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define additional theorem environments
+% (remark,definition,example,assumption,proof) 
+%
+%theorem and definition
+\theoremstyle{plain}
+\theoremheaderfont{\normalfont\bfseries}
+\theorembodyfont{\itshape}
+\theoremsymbol{\ensuremath{\diamondsuit}}
+\theoremseparator{:}
+\ifx\thesislanguage\danishlang
+\newtheorem{theorem}{Teorem}[chapter]
+\else
+\newtheorem{theorem}{Theorem}[chapter]
+\fi
+
+\theoremstyle{plain}
+\theorembodyfont{\upshape}
+\theoremsymbol{\ensuremath{\diamondsuit}}
+\theoremseparator{}
+\theoremindent0.5cm
+\ifx\thesislanguage\danishlang
+\newtheorem{example}{Eksempel}[chapter]
+\else
+\newtheorem{example}{Example}[chapter]
+\fi
+
+
+
+\theoremstyle{plain}
+\theoremsymbol{\ensuremath{\diamond}}
+\theoremseparator{:}
+\theoremindent0cm
+%\theoremprework{\bigskip}
+%\theorempostwork{\bigskip}
+\newtheorem{definition}{Definition}[chapter]
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\sc}
+\theorembodyfont{\upshape}
+\theoremseparator{}
+\theoremsymbol{\rule{1ex}{1ex}}
+\theoremindent0cm
+\ifx\thesislanguage\danishlang
+\newtheorem{proof}{Bevis}[chapter]
+\else
+\newtheorem{proof}{Proof}[chapter]
+\fi
+
+\theoremstyle{plain}
+\theorembodyfont{\upshape}
+\theoremsymbol{\ensuremath{\diamondsuit}}
+\theoremseparator{}
+\theoremindent0cm
+\ifx\thesislanguage\danishlang
+\newtheorem{assumption}{Antagelse}[chapter]
+\else
+\newtheorem{assumption}{Assumption}[chapter]
+\fi
+
+\theoremstyle{plain}
+\theoremheaderfont{\normalfont}
+\theorembodyfont{\upshape}
+\theoremsymbol{}
+\theoremseparator{}
+\theoremindent0.5cm
+\ifx\thesislanguage\danishlang
+\newtheorem{remark}{Bem�rkning}[chapter]
+\else
+\newtheorem{remark}{Remark}[chapter]
+\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Setup front- and back matter and info-pages about the project
+%
+\newcommand{\makefrontpage}
+{\begin{titlepage}%
+    \begin{center}
+    	{\Large \Institucion}
+	
+		\vspace*{0.2cm}
+		
+		{\large \Departamento}
+		
+		{\large \Lugar}
+		
+		\vspace*{2cm}
+		
+      	\includegraphics[trim = 80mm 50mm 80mm 0mm, clip, height=33mm]{figures/utfsm}
+
+		\vspace*{0.6cm}
+		
+		{\Large \TituloTrabajo}
+		
+		\vspace*{3cm}
+		
+		{\large \Autor}
+		
+		\vspace*{1.5cm}
+		
+		{\large MEMORIA DE TITULACI\'ON PARA OPTAR AL T\'ITULO DE \Titulo}
+		
+		\vspace*{0.5cm}
+		
+		{\large PROFESOR GU\'IA: \ProfesorGuia}
+		
+		\vfill
+		
+		{\large \Fecha}
+
+	\end{center}
+   \end{titlepage}%
+  \setcounter{footnote}{0}
+  % 
+  \newpage\thispagestyle{empty}
+ }
+
+\newcommand{\makefrontpageempty}
+{\begin{titlepage}%
+    \begin{center}
+    	{\Large \Institucion}
+	
+		\vspace*{0.2cm}
+		
+		{\large \Departamento}
+		
+		{\large \Lugar}
+		
+		\vspace*{2cm}
+		
+      	\includegraphics[trim = 80mm 50mm 80mm 0mm, clip, height=33mm]{figures/utfsm}
+
+		\vspace*{0.6cm}
+		
+		{\Large \textbf{\TituloTrabajo}}
+		
+		\vspace*{3cm}
+		
+		{\large \Autor}
+		
+		\vspace*{0.7cm}
+		
+		{\large MEMORIA DE TITULACI\'ON PARA OPTAR AL T\'ITULO DE \Titulo}
+		
+		\vspace*{0.5cm}
+		
+		{\normalsize PROFESOR GU\'IA: \ProfesorGuia}\\
+		{\normalsize PROFESOR CORREFERENTE: \ProfesorCorr}
+		
+		\vfill
+		
+		{\large \Fecha}
+
+	\end{center}
+	\end{titlepage}%
+  \setcounter{footnote}{0}%
+  \newpage\thispagestyle{empty}
+}
+
+\newcommand{\infopage}
+ {\begin{titlepage}%
+    \begin{center}
+    	{\large AGRADECIMIENTOS}
+	
+	\end{center}
+	\input{chapters/agradecimientos.tex}
+	  \end{titlepage}%
+      \setcounter{footnote}{0}%
+      \newpage\thispagestyle{empty}
+    }
+    
+
+\newcommand{\dedicatoria}
+ {\begin{titlepage}%
+ 	
+    \begin{flushright}
+       \hfill\vfill
+    	\Dedicado
+	
+	\end{flushright}
+	  \end{titlepage}%
+      \setcounter{footnote}{0}%
+      \newpage\thispagestyle{empty}
+    }
+
+
+\newcommand{\emptypage}
+{\begin{titlepage}%
+    \begin{pspicture}(0cm,0cm)(15cm,22cm)
+    \end{pspicture}
+   \end{titlepage}%
+  \setcounter{footnote}{0}%
+ }
+
+
+\newcommand{\makebackpage}{
+  %disable header for the backmatter
+  \pagestyle{empty}
+   
+  % insert empty page
+  \begin{pspicture}(0cm,0cm)(15cm,22cm)
+  \end{pspicture}
+  
+  %print backmatter
+  \begin{pspicture}(0cm,0cm)(15cm,20.5cm) 
+
+    \rput[t1](4.6,5.4){
+      \textsf{
+        \begin{minipage}[t]{14cm}
+          \begin{tabular}{l}
+            \LARGE{\textbf{www.inca.inf.utfsm.cl}}\\
+            \\
+            \large Departamento de Inform\'atica\\
+            \large Laboratorio de Inteligencia Computacional Aplicada (INCA)\\
+            \large Universidad T\'ecnica Federico Santa Mar\'ia\\
+            \large Edificio F of.1.17 \\
+            \large Avenida Espa\~na 1680, Valparaiso \\
+            \large Chile\\
+            \hspace*{-0.2cm}\large \begin{tabular}{l l l}
+              Tel:& \quad   &(+56) 32 2654659\\
+%              Fax:& \quad   &(+45) 45 93 16 34\\
+            \end{tabular}\\
+%            \large Email: info@elektro.dtu.dk\\
+            \\
+            \\
+            \ISBNNUMBER \\
+          \end{tabular}
+        \end{minipage}}}
+  \end{pspicture}
+}
+
+\newcommand*{\coverpages}{\makefrontpage \makefrontpageempty \infopage \dedicatoria}
+%
+% END - Setup front- and back matter and info-pages about the project
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "master"
+%%% End:

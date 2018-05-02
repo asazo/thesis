@@ -1,0 +1,141 @@
+\documentclass[letterpaper,oneside,12pt,english]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tocbibind} % Bibliografía en el indice
+\usepackage{titlesec} % Posibilidad de editar los formatos de chapter
+\usepackage{amsmath,amssymb,mathrsfs} % Matemáticas varias
+\usepackage{mathtools}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\usepackage{hyperref} %Esto te hace un pequeño esquemita al lado
+\usepackage{listings}
+\usepackage{anysize} 
+\usepackage{algorithmic} % Para pseudocódigo de algoritmos
+\usepackage{algorithm}
+\usepackage{float}
+\usepackage{array}
+\usepackage{marvosym}
+
+%\usepackage[chapter]{algorithm}
+%\usepackage{algpseudocode}
+%\algtext*{EndIf}
+\usepackage{tocbibind}
+%\renewcommand{\listalgorithmname}{Índice de algoritmos}
+\usepackage[titletoc]{appendix} % Para tener apéndice en vez de capítulos
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{stmaryrd}
+\usepackage{bm}
+% --- Arreglos varios para la inclusion de imagenes
+%\usepackage[pdftex]{graphicx}
+\usepackage{epstopdf}
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage[usenames,dvipsnames]{color}
+
+\hyphenation{mo-de-ling}
+
+\graphicspath{{figures/}}
+\DeclareGraphicsExtensions{.png,.jpg,.pdf,.mps,.gif,.bmp,.eps}
+
+% --- Para las dimensiones de los márgenes etc
+% \frenchspacing \addtolength{\hoffset}{-1.5cm}
+% \addtolength{\textwidth}{3cm} \addtolength{\voffset}{-2.5cm}
+% \addtolength{\textheight}{4cm}
+\marginsize{4cm}{2.5cm}{2cm}{2cm} 
+
+% --- Para el encabezado
+\usepackage{fancyhdr}
+\fancyhead[R]{UTFSM}\fancyhead[L]{} \fancyfoot[C]{\thepage}
+\pagestyle{fancy}
+
+% --- Para las tablas
+\renewcommand{\tablename}{Table}
+%\renewcommand{\listtablename}{Índice de tablas}
+
+% --- Para los algoritmos
+\renewcommand{\algorithmiccomment}[1]{// #1}
+\floatname{algorithm}{Algorithm}
+
+% --- Para los apendices
+\renewcommand{\appendixname}{Anexo}
+\renewcommand{\appendixtocname}{Anexo}
+\renewcommand{\appendixpagename}{Anexo}
+% -------------------------------------------------------- %
+%\usepackage{kpfonts, eulervm}
+%\usepackage[T1]{fontenc}
+
+
+\input{chapters/macros.tex}
+
+\title{Computational Analysis of a 3D Vertex Model for Grain Growth in Polycrystalline Material}
+\author{Alejandro Herminio José Sazo Gómez}
+
+\lstset{ %
+language=C,                % choose the language of the code
+basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=0,                   % the step between two line-numbers. If it's 1 each line 
+                                % will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,	                % adds a frame around the code
+tabsize=2,	                % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                                % also try caption instead of title
+escapeinside={\%*}{*)},         % if you want to add a comment within your code
+morekeywords={*,...}            % if you want to add more keywords to the set
+}
+
+\begin{document}
+\frontmatter
+\input{chapters/title.tex} 
+%\input{chapters/dedicado.tex}
+%\input{chapters/agradecimientos.tex} 
+%\input{chapters/resumen.tex} 
+\markboth{}{}
+\tableofcontents 
+\listoftables
+\listoffigures
+\listofalgorithms
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+
+\mainmatter
+%\input{chapters/introduction.tex}
+\input{chapters/chapter1.tex}
+\input{chapters/chapter2.tex}
+\input{chapters/chapter3.tex}
+%\input{chapters/chap4.tex}
+%\input{chapters/chap5.tex}
+%\input{chapters/chap6.tex}
+%\input{chapters/chap7.tex}
+%\input{chapters/conclusion.tex}
+
+
+\bibliographystyle{abbrv}
+\bibliography{References}
+%
+%\bibliographystyle{IEEEtran}
+
+% --- Para los apendices
+%\renewcommand{\appendixname}{Anexo}
+%\renewcommand{\appendixtocname}{Anexo}
+%\renewcommand{\appendixpagename}{Anexo}
+
+%\begin{appendices}
+
+%\input{chapters/anexo1.tex}
+%\end{appendices}
+
+\end{document}

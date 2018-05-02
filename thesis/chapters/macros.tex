@@ -1,0 +1,79 @@
+\usepackage{xparse}
+\usepackage{scalerel}
+%%% USEFUL MATHEMATICAL DEFINITIONS
+
+%% MATH
+% Real set
+\newcommand{\Reals}{\mathbb{R}}
+% Rectangular domain over R^2
+\newcommand{\dom}{\([0,1]^2 \subset \mathbb{R}^2\)}
+% Complex set
+\newcommand{\Complex}{\mathbb{C}}
+% Norm
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+% Vectores en negrita
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+%% GRAINS COMMANDS
+
+% Vectorial notation
+% #1 objective vector
+% #2 superscript with parenthesis
+% #3 underscript without parenthesis
+\DeclareDocumentCommand \vectorial { m o o}{
+    \IfNoValueTF{#3}{
+        \IfNoValueTF{#2}{
+            \vec{#1}
+        }{
+          \vec{#1}_{#2}^{\phantom{()}}\!\!
+        }
+    }{
+	  \vec{#1}_{#2}^{(#3)}
+    }
+}
+
+% discrete data
+\DeclareDocumentCommand \x { o o }{ \vectorial{x}[#1][#2] }
+\DeclareDocumentCommand \dotx { o o }{ \vectorial{\dot{x}}[#1][#2] }
+% xi boundary
+\newcommand{\vxi}{\bm{\xi}}
+% l
+\newcommand{\mylvec}{\vec{l}}
+% derivative of xi with respect to s
+\newcommand{\dxids}{\dfrac{\partial \vxi}{\partial s}}
+% derivative of xi with respect to t
+\newcommand{\dxidt}{\dfrac{\partial \vxi}{\partial t}}
+% Tangent vector
+\newcommand{\T}{\vec{T}}
+% Normal vector
+\newcommand{\N}{\vec{N}}
+% Rate of change area
+\newcommand{\dAdt}{\dfrac{dA}{dt}}
+% Velocity vector
+\newcommand{\vel}{\vec{v}}
+% Explicit tangent definition as unit vector
+\newcommand{\unitl}{\dfrac{\mylvec(s,t)}{\norm{\mylvec(s,t)}}}
+% Derivative of tangent with respect to s
+\newcommand{\dTds}{\dfrac{\partial \T}{\partial s}}
+\newcommand{\dlvecdt}{\dfrac{\partial \mylvec}{\partial t}}
+\newcommand{\dvds}{\dfrac{\partial \vel}{\partial s}}
+% Standalone d/dt
+\newcommand{\partddt}{\dfrac{\partial}{\partial t}}
+% Standalone d/ds
+\newcommand{\partdds}{\dfrac{\partial}{\partial s}}
+
+\newcommand{\eval}[2]{\bigg\rvert_{#1}^{#2}}
+\newcommand{\AL}{\mathcal{L}}
+% Derivative of T with respect to arclen
+\newcommand{\dTdAL}{\dfrac{\partial \T}{\partial \AL}}
+% Derivative of s with respect to arclength
+\newcommand{\dsdAL}{\dfrac{ds}{d\AL}}
+% Lagrange phi function
+\newcommand{\phii}[2]{\phi_{#1}^{\phantom{()}}\!\!\!\left(#2\right)}
+% Boundary definition
+\newcommand{\boundary}{ \sum_{i=1}^{n} \x[i][k](t)\,\phii{i}{s}}
+% Velocity boundary
+\newcommand{\velboundary}{ \sum_{i=1}^{n} \dotx[i](t)\,\phii{i}{s}}
+
+%% OTHERS
+\newcommand{\ie}{i.e.,\;}
