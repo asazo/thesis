@@ -1,20 +1,43 @@
-\usepackage{xparse}
-\usepackage{scalerel}
-%%% USEFUL MATHEMATICAL DEFINITIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Macros for writing recurrent and complex math expressions,
+% mostly related to grain structure concepts such as the grain boundaries \xi
+% and its spatial and temporal derivatives.
+% One of the mathematical models also requires to write over and over interpolators.
+% this is handled too.
+%
 
-%% MATH
+% Write complex commands, better than \newcommand
+\usepackage{xparse}
+% Vertical scaling
+\usepackage{scalerel}
+% Bold typesetting, in general, but useful for make greek letters bold
+\usepackage{bm}
+
+%%% MATH
 % Real set
 \newcommand{\Reals}{\mathbb{R}}
 % Rectangular domain over R^2
-\newcommand{\dom}{\([0,1]^2 \subset \mathbb{R}^2\)}
+\newcommand{\dom}{[0,1]^2 \subset \mathbb{R}^2}
 % Complex set
 \newcommand{\Complex}{\mathbb{C}}
+% sinc
+\DeclareMathOperator\sinc{sinc}
+% number of sides
+\DeclareMathOperator\ns{ns}
 % Norm
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 % Vectores en negrita
 \renewcommand{\vec}[1]{\mathbf{#1}}
 
-%% GRAINS COMMANDS
+%%% GRAINS COMMANDS
+
+% Grains set
+\newcommand{\grains}{\bm{\Sigma}}
+% Boundaries set
+\newcommand{\boundaries}{\bm{\Gamma}}
+% Vertices set
+\newcommand{\vertices}{\mathcal{X}}
 
 % Vectorial notation
 % #1 objective vector
@@ -34,10 +57,14 @@
 
 % discrete data
 \DeclareDocumentCommand \x { o o }{ \vectorial{x}[#1][#2] }
+% Capital bold X
+\newcommand{\X}{\vectorial{X}}
 \DeclareDocumentCommand \dotx { o o }{ \vectorial{\dot{x}}[#1][#2] }
+% Canonical vector
+\newcommand{\ei}[1]{\mathbf{e}_{#1}}
 % xi boundary
 \newcommand{\vxi}{\bm{\xi}}
-% l
+% l(s,t)
 \newcommand{\mylvec}{\vec{l}}
 % derivative of xi with respect to s
 \newcommand{\dxids}{\dfrac{\partial \vxi}{\partial s}}
@@ -53,27 +80,35 @@
 \newcommand{\vel}{\vec{v}}
 % Explicit tangent definition as unit vector
 \newcommand{\unitl}{\dfrac{\mylvec(s,t)}{\norm{\mylvec(s,t)}}}
+\newcommand{\unitlk}{\dfrac{\mylvec^{(k)}(s,t)}{\norm{\mylvec^{(k)}(s,t)}}}
 % Derivative of tangent with respect to s
 \newcommand{\dTds}{\dfrac{\partial \T}{\partial s}}
+% Derivative of l(s,t) with respect to t
 \newcommand{\dlvecdt}{\dfrac{\partial \mylvec}{\partial t}}
+\newcommand{\dlkvecdt}{\dfrac{\partial \mylvec^{(k)}}{\partial t}}
+% Derivative of velocity with respect to space
 \newcommand{\dvds}{\dfrac{\partial \vel}{\partial s}}
 % Standalone d/dt
 \newcommand{\partddt}{\dfrac{\partial}{\partial t}}
 % Standalone d/ds
 \newcommand{\partdds}{\dfrac{\partial}{\partial s}}
-
+% Evaluate an expression between some interval
 \newcommand{\eval}[2]{\bigg\rvert_{#1}^{#2}}
+% Abreviature, useful to declare AL(s)
 \newcommand{\AL}{\mathcal{L}}
-% Derivative of T with respect to arclen
+% Derivative of T with respect to arclength
 \newcommand{\dTdAL}{\dfrac{\partial \T}{\partial \AL}}
 % Derivative of s with respect to arclength
 \newcommand{\dsdAL}{\dfrac{ds}{d\AL}}
-% Lagrange phi function
+% Lagrange phi function, with space to fig with x_a^b
+% by adding a phantom exponent
 \newcommand{\phii}[2]{\phi_{#1}^{\phantom{()}}\!\!\!\left(#2\right)}
 % Boundary definition
 \newcommand{\boundary}{ \sum_{i=1}^{n} \x[i][k](t)\,\phii{i}{s}}
 % Velocity boundary
 \newcommand{\velboundary}{ \sum_{i=1}^{n} \dotx[i](t)\,\phii{i}{s}}
+% Stored energy
+\newcommand{\SE}{\mathcal{E}}
 
-%% OTHERS
+%% LATIN LOCUTION
 \newcommand{\ie}{i.e.,\;}

@@ -1,0 +1,35 @@
+\chapter{Three Dimensional Implicit Model for Grain Growth}
+
+\lettrine{I}{n} a three dimensional setting, grain boundaries surfaces of polyhedra instead of curves delimiting a plain grain. Triple junctions are now triple lines where three grains meet. The single point where four grains meet are called quadruple junctions. Formally, consider a cube unit domain $[0,1]^3 \subset \mathbb{R}^3$ with periodic boundary conditions. Notation is similar to the two dimensional setting. Grains are still defined as $N$ disjoint regions as \eqref{eq:grainsdef}, that is, a set of polyhedra. Let $\boundaries$ the set of grain boundaries delimiting the grains as in \eqref{eq:boundariesdef}, but now these are polygonal surfaces. Instead of triple junctions, we have the set $\mathcal{X}$ of $M$ quadruple junctions.
+
+A classic approach for generating initial conditions for grain growth simulation consists in the Voronoi tessellation of a domain from a random set of initial points \cite{Barmak2013,BarralesMora2008,Kinderlehrer2006,Lazar2011,Syha2010,torres2015}. The proposed model extends the idea of vertex-driven models to three dimensions by maintaining grain surfaces flat and triple lines straight during grain structure evolution. This implies that vertices can't be moved individually as vertex model works, otherwise grain surfaces would become curved. In order to impose these restrictions it is proposed to move the generator points used for the generation of the Voronoi tessellation instead. This implies that every time we move the generator points, we need to build a new tessellation. As the tessellation always gives flat surfaces, the imposed restriction of flat faces and straight triple lines are always accomplished \cite{sazo2017}.
+
+The motivation for this model is that two dimensional topological transitions are already difficult to implement and check. Chapter \ref{chap:parallelflip} shows how cumbersome can be this process even if we introduce sophisticated mechanisms. In a three dimensional setting the possibilities for topological transitions increases since grain boundaries are now surfaces instead of curves \cite{BarralesMora2008}. This model handles implicitly topological transitions, that is, to avoid modifications, consistency checking and repairs to underlying data structure, only relying in how the structure is generated via tessellations.
+
+The tessellation is build using a certain group of points in the domain. Let $\mathcal{P}$ the set of generator points of a tessellation such that:
+\begin{equation*}
+    \mathcal{P} = \mathcal{P}(t) = \{ \mathbf{P}^{(1)}, \mathbf{P}^{(2)}, \dotsc, \mathbf{P}^{(N)} \}.
+\end{equation*}
+Grain structure evolves when generator points moves and each new tessellation after generator motion is considered a new state of the grain structure. This continuous motion and tessellations are stable in front of small changes of the generator points \cite{reem2011geometric}. Grain removal is assumed to happen when a grain decreases its volume until a certain minimum value is reached. The grain is removed by removing the related generator point.
+
+
+The total energy of the system is inspired in the total energy of a two dimensional grain structure from \eqref{eq:energy} where instead of integrating along curve grain boundaries, we integrate over grain surfaces.
+\begin{equation}
+    E(t) = \sum_{k=1}^{K} \int_{\Gamma^{(k)}} \sigma_k\,dA,
+    \label{eq:energy3d}
+\end{equation}
+where $\sigma_k$ is the grain boundary energy per unit of area. In order to simulate the grain structure evolution we must ensure that \eqref{eq:energy3d} decreases. The following velocity equation for the generator points is proposed:
+\begin{equation}
+    \dot{\mathbf{P}}^{(g)} = \sum_{m=1}^{M} \gamma^{(m,l)}\mathbf{T}^{(m,l)},
+    \label{eq:voronoivel}
+\end{equation}
+where $m$ and $l$ indicates quadruple junctions sharing a triple line, $\gamma^{(m,l)}$ is an energy term related to the triple line and $\mathbf{T}^{(m,l)}$ is the unit tangent vector to the triple line. Consider $\mathcal{X}_g,\, g = 1,\dotsc,N$ the set of all the quadruple junctions that belongs to a grain $g$. Each quadruple junction $\mathcal{X}_g$ has four triple lines and thus four neighbor junctions, but only three of them lies in $g$, the other triple junction belongs to an adjacent grain $g'$, this is the considered triple line in \eqref{eq:voronoivel} between $m$ and $l$ and generates an unit tension $\mathbf{T}^{(m,l)}$ that will affect the motion of the generator point $\mathcal{P}^{(g)}$.
+\section{Numerical Experiments}
+
+In order to test the proposed model, two numerical experiments were performed. The first is related to how the evolution equation does indeed minimize the total energy of the grain structure. The second experiment shows that grains obtained in tessellations over time evolve and gain or lose faces through topological transitions that are not explicitly handled.
+
+\subsection{Energy Minimization}
+
+Recall that the proposed energy equation in \eqref{eq:voronoivel} is not derived from the total energy in \eqref{eq:energy3d}.
+
+\subsection{Topological Transitions}

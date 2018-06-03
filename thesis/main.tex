@@ -4,14 +4,16 @@
 \usepackage[T1]{fontenc}
 \usepackage{tocbibind} % Bibliografía en el indice
 \usepackage{titlesec} % Posibilidad de editar los formatos de chapter
-\usepackage{amsmath,amssymb,mathrsfs} % Matemáticas varias
+%\usepackage{amsmath,amssymb,mathrsfs} % Matemáticas varias
+\usepackage{amssymb,amsmath}
 \usepackage{mathtools}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 \usepackage{hyperref} %Esto te hace un pequeño esquemita al lado
 \usepackage{listings}
 \usepackage{anysize} 
-\usepackage{algorithmic} % Para pseudocódigo de algoritmos
-\usepackage{algorithm}
+%\usepackage{algorithmicx} % Para pseudocódigo de algoritmos
+\usepackage{algpseudocode}
+\usepackage[chapter]{algorithm}
 \usepackage{float}
 \usepackage{array}
 \usepackage{marvosym}
@@ -29,15 +31,25 @@
 \usepackage{lscape}
 \usepackage{rotating}
 \usepackage{stmaryrd}
-\usepackage{bm}
+\usepackage{relsize}
 % --- Arreglos varios para la inclusion de imagenes
 %\usepackage[pdftex]{graphicx}
 \usepackage{epstopdf}
 \usepackage{subfig}
 \usepackage{graphicx}
-\usepackage[usenames,dvipsnames]{color}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{lettrine}
+\setcounter{DefaultLines}{2}
+\renewcommand{\LettrineFontHook}{\bfseries \color{BrickRed}}
 
 \hyphenation{mo-de-ling}
+\hyphenation{in-tra-gra-nu-lar}
+\hyphenation{boun-dary}
+\hyphenation{common}
+\hyphenation{classic}
+\hyphenation{exam-ple}
+\hyphenation{ma-te-rialia}
 
 \graphicspath{{figures/}}
 \DeclareGraphicsExtensions{.png,.jpg,.pdf,.mps,.gif,.bmp,.eps}
@@ -58,16 +70,15 @@
 %\renewcommand{\listtablename}{Índice de tablas}
 
 % --- Para los algoritmos
-\renewcommand{\algorithmiccomment}[1]{// #1}
-\floatname{algorithm}{Algorithm}
+%\renewcommand{\algorithmiccomment}[1]{// #1}
+%\floatname{algorithm}{Algorithm}
 
 % --- Para los apendices
 \renewcommand{\appendixname}{Anexo}
 \renewcommand{\appendixtocname}{Anexo}
 \renewcommand{\appendixpagename}{Anexo}
 % -------------------------------------------------------- %
-%\usepackage{kpfonts, eulervm}
-%\usepackage[T1]{fontenc}
+
 
 
 \input{chapters/macros.tex}
@@ -110,15 +121,19 @@ morekeywords={*,...}            % if you want to add more keywords to the set
 \listoffigures
 \listofalgorithms
 \renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
 
 \mainmatter
-%\input{chapters/introduction.tex}
-\input{chapters/chapter1.tex}
-\input{chapters/chapter2.tex}
-\input{chapters/chapter3.tex}
-%\input{chapters/chap4.tex}
-%\input{chapters/chap5.tex}
-%\input{chapters/chap6.tex}
+\input{chapters/introduction.tex}
+\input{chapters/twodim.tex}
+\input{chapters/closed_boundary.tex}
+\input{chapters/coupled_model.tex}
+\input{chapters/stored_energy.tex}
+\input{chapters/polling_system.tex}
+\input{chapters/grain_statistics.tex}
+\input{chapters/3d_voronoi.tex}
+\input{chapters/esedoglu.tex}
 %\input{chapters/chap7.tex}
 %\input{chapters/conclusion.tex}
 

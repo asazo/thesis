@@ -1,0 +1,65 @@
+\chapter{The Coupled Model}
+\label{chap:coupledmodel}
+
+\lettrine{N}{umerical} simulations studied by vertex-driven motion and curvature-driven motion as exposed in Chapter \ref{chap:2dgrains} can be also studied in a coupled way with the purpose of capturing the dynamics of both models and being able to reproduce each one of them individually.
+
+
+\begin{equation}
+    \boundary
+    \label{eq:boundarydiscret}
+\end{equation}
+
+\section{Numerical Implementation}
+
+An important result of the study of extinction time is that topological transitions are delayed because the extinction time estimation has an error proportional to the simulation $\Delta t$. This study suggest that the continuous motion of triple junctions and boundaries must be accurate enough to estimate extinction times of higher order. 
+
+The first idea to obtain a better approximation of extinction time is to perform $r$ steps of size $\Delta \tau$ such that $\Delta \tau = \dfrac{\Delta t}{r}$. During the execution of this steps, the basic assumption is that no topological transition occurs and thus the system just evolves. Using a smaller time step helps to ensure a better approximation. On the other hand, straightforward higher order methods can be used. For example second order Runge-Kutta ensures that the grain system evolves with precision $\mathcal{O}(\Delta t^2)$, and therefore the extinction time has the same precision. Runge-Kutta can also be improved by the introduction of many steps of smaller size. 
+In both methods, topological transitions that might occur in $[t, t+\Delta t]$ are detected and managed after the evolution is performed. Both methods are discussed below.
+
+\subsection{Multistep Euler}
+
+This method assumes that Euler method can be improved if steps of smaller size are performed to evolve the grain structure previous to handle topological transitions. A number $r$ of smaller steps of size $\Delta \tau$ is chosen, where $\Delta \tau = \Delta t / r$. The execution of this $r$ steps is called the \emph{multistep stage} and the system evolves assuming that there are not topological transitions. Algorithm \ref{alg:multistep} shows this method.
+
+\begin{algorithm}
+\caption{Multistep Euler for Coupled Model}
+\label{alg:multistep}
+\begin{algorithmic}[1]
+\Procedure{ME}{}
+\State $\Delta \tau \gets \dfrac{\Delta t}{r}$ Time step of multistep phase.
+\For{$k:1,\dotso,r$}
+%\State Detect Topological Transitions
+\State $\mathbf{V}_t \gets$ Compute velocities
+\State $X_{t + \Delta \tau} \gets X_{t} + \Delta \tau \mathbf{V}_t$
+\State $t \gets t + \Delta \tau$
+\EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+Using a smaller step-size helps to ensure a better approximation of the extinction time proportional to $\mathcal{O}(\Delta \tau)$.
+Inside the multistep stage, topological transitions are detected by computing the extinction time of the boundaries and comparing it with $\Delta t$ but they are not performed. When the multistep stage is over all the topological transitions found are filtered so there are no inconsistencies and then are performed safely. No extra memory is required for this method, but the cost if purely computational since the method is performing $r$ steps per main step and thus is almost $r$ times slower.  Notice that when $r = 1$, we recover the original Forward Euler method.
+
+\subsection{Multistep Second Order Runge-Kutta}
+
+If the goal is to obtain a good approximation of the extinction time, a higher order method can be implemented straightforward. For example extinction times with precision $\mathcal{O}(\Delta t^2)$ can be estimated using second order Runge-Kutta (RK2). We can also improve this method by means of introducing the multistep idea to perform several RK2 steps within $[t,t+\Delta t]$ as shown in Algorithm \ref{alg:rk2}.
+
+\begin{algorithm}
+\caption{Multistep Second Order Runge-Kutta for Coupled Model}
+\label{alg:rk2}
+\begin{algorithmic}[1]
+\Procedure{MRK2}{}
+\State $\Delta \tau \gets \dfrac{\Delta t}{r}$ Time step of multistep phase.
+\For{$k:1,\dotso,r$}
+\State $\mathbf{\overline{X}}_t \gets$ Backup positions $\mathbf{X}_t$ of triple junctions and interior points
+\State $\mathbf{V}_t \gets$ Compute velocities
+\State $\mathbf{X}_{t + \Delta \tau / 2} \gets \mathbf{X}_t + \dfrac{\Delta \tau}{2} \mathbf{V}_t$. Evolve structure for first RK estimation
+\State $\mathbf{V}_{t + \Delta \tau /2} \gets$ Compute velocities
+\State $\mathbf{X}_{t + \Delta \tau} \gets \mathbf{\overline{X}}_t + \Delta \tau \mathbf{V}_{t + \Delta \tau /2}$ . Evolve structure for second RK estimation
+\State $t \gets t + \Delta \tau$
+\EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+The cost of this method lies in the memory needed to store the extra data for performing the two estimations at time $\Delta \tau/2$ and $\Delta \tau$ and the number of steps $r$. Notice that when $r = 1$  we recover the original RK2. In this implementation it is only necessary to backup the positions of the vertices and interior points to be used in the last step of the method and not the whole data structure \ie arc lengths, curvatures, grain areas, etc.
+
