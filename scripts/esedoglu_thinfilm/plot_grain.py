@@ -1,9 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 from skimage import measure
-import mayavi as mlab
+import mayavi.mlab as mlab
 import numpy as np
 import sys
+import scipy.io
 
 # Notice that indices here goes from 0 to N-1
 dims = (128,128,128)
@@ -29,8 +30,13 @@ def plot_grain_mayavi(grain):
     mlab.show()
 
 if __name__ == '__main__':
+    # Load the output of gbm3d.m after many iterations.
+    grains = scipy.io.loadmat("../../esedoglu/v1_largescale/grains.mat")['grains']
+    n_grains = len(grains)
+    print("Loaded %d grains" % n_grains)
     try:
         idx = int(sys.argv[1])
+        bad = False
     except:
         print("%s is not an integer" % sys.argv[1])
         bad = True
