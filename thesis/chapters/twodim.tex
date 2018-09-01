@@ -32,7 +32,7 @@ Figure \ref{fig:grainstructure} shows a simulated grain structure under the give
 \begin{figure}[t]
     \centering
     \includegraphics[scale=0.5]{grainstructure.pdf}
-    \caption{Grain structure under periodic boundary conditions.}
+    \caption{Simulated grain structure under periodic boundary conditions.}
     \label{fig:grainstructure}
 \end{figure}
 As discussed before, the grain system evolves over time, vertices and boundaries moves, some grains shrink and other grow. When a boundary decreases its length to zero, or when a grain area becomes zero, a component of the system disappears. These changes are denominated topological transitions and are described in the next section.
@@ -81,8 +81,8 @@ If we count the number of vertices in a grain structure we count three boundarie
  Topological transitions described induces that we removed exactly $3n_t$ boundaries and $2n_t$ vertices and the following definitions yields between vertices, boundaries and grains between time steps $t$ and $t+1$:
  \begin{align*}
      dN_t &= N_{t+1} - N_{t} =  - n_t\\
-     dK_t &= K_{t+1} - K_{t} - 3n_t\\
-     dM_t &= M_{t+1} - M_{t} - 2n_t.
+     dK_t &= K_{t+1} - K_{t} = - 3n_t\\
+     dM_t &= M_{t+1} - M_{t} = - 2n_t.
  \end{align*}
 We can build the following relation in terms of the variation of grains:
 \begin{equation}

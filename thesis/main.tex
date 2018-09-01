@@ -39,6 +39,10 @@
 \usepackage{graphicx}
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{tikz}
+\usetikzlibrary{external}
+\usetikzlibrary{calc}
+\tikzexternalize % activate!
+
 \usepackage{lettrine}
 \setcounter{DefaultLines}{2}
 \renewcommand{\LettrineFontHook}{\bfseries \color{BrickRed}}
@@ -131,9 +135,9 @@ morekeywords={*,...}            % if you want to add more keywords to the set
 \input{chapters/coupled_model.tex}
 \input{chapters/stored_energy.tex}
 \input{chapters/polling_system.tex}
-\input{chapters/grain_statistics.tex}
+
 \input{chapters/3d_voronoi.tex}
-\input{chapters/esedoglu.tex}
+\input{chapters/esedoglu.tex}\i\input{chapters/grain_statistics.tex}
 %\input{chapters/chap7.tex}
 %\input{chapters/conclusion.tex}
 

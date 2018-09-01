@@ -1,8 +1,8 @@
 \chapter{Three Dimensional Implicit Model for Grain Growth}
 
-\lettrine{I}{n} a three dimensional setting, grain boundaries surfaces of polyhedra instead of curves delimiting a plain grain. Triple junctions are now triple lines where three grains meet. The single point where four grains meet are called quadruple junctions. Formally, consider a cube unit domain $[0,1]^3 \subset \mathbb{R}^3$ with periodic boundary conditions. Notation is similar to the two dimensional setting. Grains are still defined as $N$ disjoint regions as \eqref{eq:grainsdef}, that is, a set of polyhedra. Let $\boundaries$ the set of grain boundaries delimiting the grains as in \eqref{eq:boundariesdef}, but now these are polygonal surfaces. Instead of triple junctions, we have the set $\mathcal{X}$ of $M$ quadruple junctions.
+\lettrine{I}{n} a three dimensional setting, grain boundaries surfaces of polyhedra instead of curves delimiting a plain grain. Triple junctions are now triple lines where three grains meet. The single point where four grains meet are called quadruple junctions. Formally, consider a cube unit domain $[0,1]^3 \subset \mathbb{R}^3$ with periodic boundary conditions. Notation is similar to the two dimensional setting. Grains are still defined as a set $\grains $ of $N$ disjoint regions as \eqref{eq:grainsdef}, that is, a set of polyhedra. Let $\boundaries$ the set of grain boundaries delimiting the grains as in \eqref{eq:boundariesdef}, but now these are polygonal surfaces. Instead of triple junctions, we have the set $\vertices$ of $M$ quadruple junctions.
 
-A classic approach for generating initial conditions for grain growth simulation consists in the Voronoi tessellation of a domain from a random set of initial points \cite{Barmak2013,BarralesMora2008,Kinderlehrer2006,Lazar2011,Syha2010,torres2015}. The proposed model extends the idea of vertex-driven models to three dimensions by maintaining grain surfaces flat and triple lines straight during grain structure evolution. This implies that vertices can't be moved individually as vertex model works, otherwise grain surfaces would become curved. In order to impose these restrictions it is proposed to move the generator points used for the generation of the Voronoi tessellation instead. This implies that every time we move the generator points, we need to build a new tessellation. As the tessellation always gives flat surfaces, the imposed restriction of flat faces and straight triple lines are always accomplished \cite{sazo2017}.
+A classic approach for generating initial conditions for grain growth simulation consists in the Voronoi tessellation of a domain from a random set of initial points \cite{Barmak2013,BarralesMora2008,Kinderlehrer2006,Lazar2011,Syha2010,torres2015}. The proposed model extends the idea of vertex-driven models to three dimensions by maintaining grain surfaces flat and triple lines straight during grain structure evolution. This implies that vertices can't be moved individually as vertex model works, otherwise grain surfaces would become curved. In order to impose these restrictions it is proposed to move the generator points used for the generation of the Voronoi tessellation instead. This implies that every time we move the generator points, we need to build a new tessellation. As the tessellation always gives flat surfaces, the imposed restriction of flat faces and straight triple lines are always accomplished \cite{sazo2017implicit}.
 
 The motivation for this model is that two dimensional topological transitions are already difficult to implement and check. Chapter \ref{chap:parallelflip} shows how cumbersome can be this process even if we introduce sophisticated mechanisms. In a three dimensional setting the possibilities for topological transitions increases since grain boundaries are now surfaces instead of curves \cite{BarralesMora2008}. This model handles implicitly topological transitions, that is, to avoid modifications, consistency checking and repairs to underlying data structure, only relying in how the structure is generated via tessellations.
 
@@ -31,5 +31,69 @@ In order to test the proposed model, two numerical experiments were performed. T
 \subsection{Energy Minimization}
 
 Recall that the proposed energy equation in \eqref{eq:voronoivel} is not derived from the total energy in \eqref{eq:energy3d}.
+Total energy over time is shown in Figure \ref{fig:3D_energy}. This model still achieves a decreasing energy behavior. 
+Although the outcome is not monotonically decreasing, it is asymptotically decreasing.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{figures/3D_energy.pdf}
+    \caption{Total energy of a 3D simulation with implicit transition model.}
+    \label{fig:3D_energy}
+\end{figure}
 
 \subsection{Topological Transitions}
+The algorithm
+successfully handles triple lines flippings, surface transitions, and grain removals.
+Notice that the topology of the grain structure could be complex but the algorithm is still able to manage the  topological changes since this is done by Voronoi tessellation itself.
+A grain boundary flipping is shown in \figurename~\ref{fig:3Dflipping}.
+A triple line begins to shrink
+(\figurename~\ref{flip1}), 
+then it collapses into a single point 
+(\figurename~\ref{flip2}), 
+and finally this unstable configuration evolves generating a new triple line (\figurename~\ref{flip3}).
+
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[trim={0 2em 0 2em},scale=0.37]{figures/3D_flipping.pdf}
+    \subfloat[\label{flip1}]{\hspace{.2\linewidth}}
+    \subfloat[\label{flip2}]{\hspace{.2\linewidth}}
+    \subfloat[\label{flip3}]{\hspace{.2\linewidth}}
+    \caption[Flipping scheme on a single 3D grain.]{Flipping scheme on a single 3D grain. 
+    Some triple lines and neighbor grains are omitted.}
+    \label{fig:3Dflipping}
+\end{figure*}
+
+
+\figurename~\ref{fig:3Dfaceremoval} shows a surface
+transition. A surface begins to reduce its area (\figurename~\ref{rem1}, \ref{rem2}) until it becomes a vertex (\figurename~\ref{rem3}).
+
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[trim={0 2em 0 2em},scale=0.37]{3D_surface_removal.pdf}
+    \subfloat[\label{rem1}]{\hspace{.2\linewidth}}
+    \subfloat[\label{rem2}]{\hspace{.2\linewidth}}
+    \subfloat[\label{rem3}]{\hspace{.2\linewidth}}
+    \caption[Surface transition in a 3D grain]{Surface transition in a 3D grain. Triple lines of other related grains are omitted.}
+    \label{fig:3Dfaceremoval}
+\end{figure*}
+
+Finally grains removal are also observed, 
+see \figurename~\ref{fig:3Dremoval}. 
+The grain reduces its volume from 
+$V\approx 5\cdot10^{-4}$ to $V \approx 1.2\cdot10^{-4}$ until the threshold $V_{\text{ext}}$ is reached with $V \approx 9.6\cdot10^{-5}$. 
+In experiments $V_{\text{ext}}$ is set between $10^{-4}$ and $10^{-5}$.
+
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[trim={0 2em 0
+    2em},scale=0.37]{3D_grain_removal.pdf}
+    \subfloat[\label{grem1}]{\hspace{.2\linewidth}}
+    \subfloat[\label{grem2}]{\hspace{.2\linewidth}}
+    \subfloat[\label{grem3}]{\hspace{.2\linewidth}}
+    \caption{Grain removal stages. 
+    The grain loses boundaries (surfaces) until its
+    volume is less than $V_{\text{ext}}$.
+    Then the grain is removed by means of 
+    removing its generator point.}
+    \label{fig:3Dremoval}
+\end{figure*}

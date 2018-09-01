@@ -131,14 +131,13 @@ The coupled model based formula induces a different result from the velocity fou
 \begin{equation}
     \dotx[i](t) = \frac{1}{R(t)} \int_0^{2\pi}  \langle -\cos(s), -\sin(s)\rangle \,\phi_i(s)\, ds,
 \end{equation}
-where $\phi$ the periodic $\sinc$ interpolation function. If we replace the definition of the periodic $\sinc$ we obtain:
+where $\phi$ the periodic $\sinc$ interpolation function. Notice that this definition needs even number of discrete points. If we replace the definition of the periodic $\sinc$ we obtain:
 \begin{align}
     \dotx[i](t) &= -\frac{1}{R(t)} \int_0^{2\pi} \left\langle \cos(s)\frac{\sin(\pi(s-s_i) / h)}{\frac{2\pi}{h} \tan((s-s_i)/2)}, \sin(s)\frac{\sin(\pi(s-s_i) / h)}{\frac{2\pi}{h} \tan((s-s_i)/2)} \right\rangle\,ds\\
     &= -\frac{1}{R(t)}  \frac{2\pi}{n}\left\langle\cos \left(\frac{2\pi i}{n}\right), \sin\left(\frac{2\pi i }{n}\right)\right\rangle.
     \label{eq:curvaturevelocity}
 \end{align}
-
-Figure \ref{fig:circularboundary} shows the evolution of the boundary with 14 points using the velocity equation from \eqref{eq:curvaturevelocity}. The discrete data is extracted from a circle and then is interpolated using the sinc periodic interpolator. For this example we set $R_0 = 2$, which implies that the limit time of the simulation is $t_{lim}=2$. The theoretical description of the circle matches qualitatively with the interpolated curve, and for simplicity of presentation the theoretical circle is not shown. 
+Under $\sinc$ interpolant, the constant $\zeta$ from \eqref{eq:coupledvelocity} becomes $2\pi/n$. Figure \ref{fig:circularboundary} shows the evolution of the boundary with 14 points using the velocity equation from \eqref{eq:curvaturevelocity}. The discrete data is extracted from a circle and then is interpolated using the sinc periodic interpolator. For this example we set $R_0 = 2$, which implies that the limit time of the simulation is $t_{lim}=2$. The theoretical description of the circle matches qualitatively with the interpolated curve, and for simplicity of presentation the theoretical circle is not shown. 
 
 \begin{figure}[t]
     \centering
