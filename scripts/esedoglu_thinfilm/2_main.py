@@ -17,6 +17,8 @@ from tqdm import tqdm
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
+dims = (128,128,128)
+
 
 def load_grain(grains, k):
     """
@@ -133,16 +135,20 @@ def save_cuts(all_cuts, grains_folder, direction='x'):
     plt.clf()
 
 
+def help():
+    print("./2_main.py FILE")
+
 def main(argv):
     # Load the output of gbm3d.m after many iterations.
+    if len(argv) != 2:
+        help()
+        return
     matlab_source = argv[1]
     grains = scipy.io.loadmat(matlab_source)['grains']
     n_grains = len(grains)
     print("Loaded %d grains" % n_grains)
-    dims = (128,128,128)
-
     # Create folder structure
-    base_folder = "./exp_02"
+    base_folder = os.path.join("./", matlab_source.split("/")[-1][:-4])
     grains_folder = base_folder + "/grains"
     cuts_folder = base_folder + "/cuts"
 
