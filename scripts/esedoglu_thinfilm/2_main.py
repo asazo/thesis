@@ -109,7 +109,7 @@ def save_cuts(all_cuts, grains_folder, direction='x'):
         Generate a single image
     """
     # Border size in pixels
-    border_size = 20
+    border_size = 10
     # Number of cuts
     n_cuts = len(all_cuts)
     # Original shape of cuts
@@ -120,16 +120,20 @@ def save_cuts(all_cuts, grains_folder, direction='x'):
     new_shape[1] = shape[1] + border_size
     new_shape[1] = new_shape[1] * n_cuts
     # Generate empty image with shape (shape + border_size) * n_cuts
-    img = np.zeros(new_shape)
+    #img = np.ones(new_shape)
+    img = np.ones(new_shape)
     print("Output image shape",new_shape)
     for i, cut in enumerate(all_cuts):
         #print(i*(new_shape[0]+border_size), (i+1)*shape[0] + i*border_size)
-        img[:, i*(new_shape[0]+border_size):(i+1)*shape[0] + i*border_size] = cut[::-1]
+        #img[:, i*(new_shape[0]):(i+1)*new_shape[0]] = cut[::-1].astype(int)
+        #img[:, ]
+        img[:, i*(new_shape[0]+border_size):(i+1)*shape[0] + i*border_size] = cut[::-1].astype(int)
         #plt.imshow(cut[::-1], cmap=cm.binary)
+        #img = np.logical_not(img)
     fig = plt.figure(figsize=(n_cuts*10, 10))
-    plt.imshow(img, cmap=cm.binary)
+    plt.imshow(img, cmap=cm.plasma)
     plt.axis("off")
-    plt.subplots_adjust(top = 1, bottom = 0, right = 1, left = 0, hspace = 0, wspace = 0)
+    #plt.subplots_adjust(top = 0, bottom = 0, right = 0, left = 0, hspace = 0, wspace = 0)
     plt.savefig(grains_folder+"/%s.png" % (direction), box_inches='tight', dpi=100,)
     plt.close()
     plt.clf()
@@ -165,6 +169,7 @@ def main(argv):
                 grains[i] = ret
         print("Loaded.")
         levels = np.arange(10,120,20, dtype=int)
+        #levels = np.array([64, 67])
         print("Generating %d levels" % len(levels))
         for dimension in ['x', 'y', 'z']:
             all_cuts = generate_cuts(grains, n_grains, dimension, levels)
