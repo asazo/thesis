@@ -1,0 +1,101 @@
+\chapter{Conclusions}
+\label{chap:conclusions}
+
+\lettrine{T}{he} present work studied two-dimensional and three-dimensional models of grain growth and nucleation via mathematical modeling and analysis, numerical computations and statistics. Figure \ref{fig:conclusions} presents a nice overview about the topics studied in this Thesis.
+
+% Grains topology
+In relation to the grain structure this study delved into its regular topology of a graph in a torus, remarking the Euler's formula between the number of vertices $M$, boundaries $K$ and grains $N$ of the form $\displaystyle M-K+N = 0$. 
+It also shows that this relation is preserved under the topological transitions of flipping and grain removal and thus along the numerical simulations of the models that was implemented.
+
+% Closed-boundary and Coupled Model
+The Coupled Model, first presented in~\cite{bachelorthesisasazo}, was improved to capture the curvature based motion and also to help the interior points - which are an abstract element for grain boundaries - to preserve the stability along the simulation. 
+The curvature based motion was recovered by studying motion in regular and non-regular closed boundaries theoretically and numerically. 
+This yielded that the velocity of the interior points needs a correction proportional to $1/\norm{\mylvec_i}$. 
+This effectively makes small grains to be removed faster, as expected by curvature motion. 
+
+On the other hand the interior points stability is not preserved using the vertices and interior points motion equations presented in \eqref{eq:triplejunctionsvel} and \eqref{eq:interiorpointsvel}. We developed a tangential component of the velocity that helps the interior points to move in a direction of energy minimization and also to preserve the initial equispaced positions. 
+The total velocity of the interior points therefore is described by a normal component and a tangential component.
+% Talk about multisteps
+We also developed multisteps algorithms that helps to compute the boundaries extinction time more precisely, avoiding delays in topological transitions. Since the curvature of the boundaries may increase a lot near its collapse, the velocities of the interior points grows and the extinction time of boundaries is not reliable. In order to control the velocities and knowing a candidate steady state given by the straight line between the vertices of the boundary,  a predictor-corrector algorithm was developed to scale the velocities, stabilize the motion and prevent such growth that also delays flippings.
+
+Numerical experiments shows that given the set of parameters that propitiate curvature motion we recover the associated statistics. 
+Dihedral angles are around $2\pi/3$ and relative areas distribution shows few small grains, although it is not a log-normal distribution. 
+Under anisotropic grain boundary energy, the GBCD is recovered succesfully. 
+Von Neumann-Mullins relation is also approximated.
+
+An extended Vertex Model was developed, the Continuous Stored Energy Vertex Model, which considers the introduction of an intragranular energy which allows a grain network to nucleate, that is, to create small grains and let them grow.
+We analized when a nucleated grain can grow and we determined a criteria to choose a vertex to introduce the new grain such that will grow. This grain effectively adds more energy to the system, but this grain helps to energy minimization by its growth. The simulations recover successfully a stage of grain growth followed by nucleations that will eventually replace all the original grains in the system and will evolve as a grain growth model. We also tested two values of orientations for the nucleated grains, orientation zero for all grains nucleated or a local optimized orientation that minimized the added energy to the system in function of the neighbor grains. Statistics shows that the stages of grain growth and nucleation can be identified clearly, and that the GBCD is recovered and also feels the consequence of choosing certain orientation to nucleate.
+
+% The parallel system
+The Coupled Model as well as the Stored Energy Vertex Model were implemented in GPU, and efforts were directed to parallelize both models using the approach of defining the basic units of works, which ultimately were vertices and boundaries. 
+Operations, such as compute boundaries velocities and move their positions, or compute vertices energies, are carried in parallel for each boundary and vertex respectively. 
+A demanding task to be parallelized was the management of topological transition, a sequential algorithm that had to be posed again to be programmed in parallel to take advantage of parallelism. 
+The final algorithm was the Parallel Polling System, which is essentially a fixed point iteration that ban all unsafe flippings that, when executed in parallel, lead to race conditions.
+
+% 3d grains
+Given the acquired knowledge of topological transitions in two dimensional grain growth, an extension of the Vertex Model in three dimensions was modeled with the objective of avoid topological transitions since in three dimensions they becomes more difficult to handle. 
+This lead to an Implicit-transition Model~\cite{sazo2017implicit} which defines the evolution equations of the centroids of the Voronoi tessellation instead of the quadruple junctions since moving each quadruple junction by itself breaks the planar grain surfaces that represents the extension of the Vertex Model to three dimensions.
+To avoid the topological transitions at each time step the new grain configuration is given by a new tessellation. 
+We observed that this effectively decreases the energy asymptotically -but not monotonically, as sometimes the energy of the system increases- and we also observe the existence of continuous motion and topological transitions such as flippings, grain removals and grain surfaces becoming triple lines.
+
+% esedoglu
+A three-dimensional model was studied to obtain two-dimensional statistics. 
+The model, based on mean curvature motion, was simulated and several outputs were obtained which consisted in cubes of grains with periodic boundary conditions. 
+Several slices in $x$,$y$ and $z$-axis were extracted and analyzed using image analysis tools.
+The results of the analysis are grain areas with units relative to the size of the image given, therefore the areas are normalized and then relative grain area distributions were obtained. 
+The distribution from slices showed a tail towards small grains, which clearly deviates from a log-normal distribution and experimental data provided. 
+This might be also related not by the model output itself but by the error introduced by the technique used to obtain the grain areas which required fine tuning and ignored the periodic boundary conditions.
+
+\section{Future Work}
+
+%The Coupled Model, as well as the Stored Energy Vertex Model, were implemented in GPU, and little time was dedicated to optimize the code for this architecture, thus it is important to perform performance profiling to this codes to identify potential bottlenecks and fix them.
+The Coupled Model as well as the Stored Energy Vertex Model were implemented in GPU with CUDA. Efforts were made to reduce computation time, 
+for example reducing global memory access and allocation, but there is still room for optimization for this architecture. 
+It is important to obtain a performance profile of the codes in order to identify potential bottlenecks and improve the code.
+
+The Coupled Model has the flexibility to manage more data structure related to vertices, boundaries and grains. 
+For example, the introduction of stored energy and nucleation might be interesting and challenging. Nucleation sites study shall be revisited to include interior points as possible candidates sites.
+
+Three-dimensional models inspired in the Implicit-transition Model can be developed further, for example, to look for an evolution equation of the Voronoi centroids that minimize monotonically the energy, for example the presented equation in \eqref{eq:voronoivel2} which decreases the energy monotonically during a transient state. This proposal needs to be studied further and we are currently working in this model.
+
+The election of a $\Delta t$ for numerical simulations is still an issue since the current method to obtain stable results is to try several values. If we were able to set an optimal $\Delta t$  we would be in a good setting to automatize even more the simulations and statistics extractions. The Periodic Hausdorff Distance used in~\cite{bachelorthesismunoz} it is a good choice to analyze the convergence of the grain structure and determine $\Delta t$.
+
+
+% \tikzset{%
+%   >={Latex[width=2mm,length=2mm]},
+%             base/.style = {rectangle, rounded corners, draw=black,
+%                           minimum width=4cm, minimum height=1cm,
+%                           text centered, font=\sffamily},
+%   main/.style = {base, fill=RoyalBlue!30},
+%   submain/.style = {base, fill=LimeGreen!50!white},
+%   theme/.style = {base, minimum width=2.5cm, fill=Dandelion!40, text width=4cm},
+% }
+% \begin{figure}[h]
+% \centering
+% \begin{tikzpicture}[node distance=3cm,
+%     every node/.style={fill=white, font=\sffamily}, align=center]
+%   % Specification of nodes (position, etc.)
+%   \node (start) [main] {Master Thesis};
+  
+%   \node (2dgg) [submain, below left of=start]  {2D Grain Growth};
+  
+%   \node (3dgg) [submain, below right of=start]  {3D Grain Growth};
+  
+%   \node (voronoi) [theme, below right of=3dgg]  {Implicit-transition Model: A};
+  
+%  \node (esedoglu) [theme, below of=voronoi]  {Extraction of Grains and Statistics};
+  
+%  \node (coupled) [theme, below left of=2dgg]  {Coupled Model};
+ 
+%  \node (se) [theme, below of=coupled]  {Stored Energy Model with Nucleation};
+    
+    
+%   % Specification of lines between nodes specified above
+%   % with aditional nodes for description
+%   \draw[->]             (start) -- (2dgg);
+%   \draw[->]             (start) -- (3dgg);
+
+% \end{tikzpicture}
+% \caption{Overview of the topics addressed in the Thesis.}
+% \label{fig:conclusions}
+% \end{figure}

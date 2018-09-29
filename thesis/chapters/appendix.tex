@@ -1,0 +1,82 @@
+% \chapter{Generation of Initial conditions}
+
+% Initial conditions for the studied models are generated, as used by many authors, via Voronoi tessellation \cite{Barmak2013,BarralesMora2008,Kinderlehrer2006,Lazar2011,Syha2010,torres2015}.
+% For Coupled Model and Stored Energy Model the initial condition considers 100000 grains. The generator points are obtained from uniform distribution using Numpy's \texttt{rand()} function in the domain $[0,1]^2$. The seeds used for the random generator are 11, 23, 32, 39, 45, 57, 61, 73, 80 and 999. In order to generate the periodic boundary conditions, the points in the domain are replicated eight times around the domain, yielding a domain of $[-1,2]^2$. Then, Scipy's \texttt{Voronoi} class is applied to obtain the tessellation which ensures that under $[0,1]^2$ the periodic conditions are met. A post-processing is needed to obtain a unique set of generator points since points lying outside $[0,1]^2$ that are connected directly to points inside must be replaced by their corresponding inside points. A sample of the tessellation is shown in Figure \ref{fig:SE_dist_0}.
+
+% In the case of the Implicit-transition model studied in Chapter \ref{chap:implicit} the approach is slightly different than the two-dimensional method. Since the tessellation is performed at each iteration of the algorithm (see Algorithm \ref{alg:implicit}) a native C++ library is preferred. The library used is Voro++\cite{Rycroft2009} and its python wrapper Pyvoro.
+
+\chapter{Tools and Technical Specifications}
+
+Here are listed the several tools and environments for software developing and testing that were used during this work.
+
+\section{Operating Systems}
+The two main environments used were CentOS 7 and Fedora 28. All software listed was extensively used in Fedora 28. CentOS 7 is the main distribution at UTFSM HPC Cluster \footnote{\url{www.hpc.utfsm.cl}} and secondary Laboratory PC.
+
+\section{Programming Languages}
+\begin{itemize}
+    \item CUDA C/C++ release 8.0, V8.0.61
+    \item GCC 5.3.1 (This is for compatibility with CUDA 8.0)
+    \item Python 3.6.5 (Anaconda)
+    \item Python 2.7.15 (Anaconda)
+    \item Anaconda 4.5.11
+\end{itemize}
+
+\section{Simulation Software}
+\begin{itemize}
+    \item MATLAB 2016b
+    \item ImageJ 1.50h
+\end{itemize}
+
+\section{Numerical Libraries}
+\begin{itemize}
+    \item Numpy 1.15.1 (Python2 and Python3)
+    \item Pymesh 0.2.1 (Python3)
+    \item Scipy 1.1.1 (Python3)
+    \item Sympy 1.1.1 (Python3)
+    \item Pyvoro 1.3.2 (Python2)
+    \item Voro++ 0.4.5 (C++)
+\end{itemize}
+
+\section{Art and Text Libraries}
+\begin{itemize}
+    \item Matplotlib 2.2.2 (Python3)
+    \item TiKz \pgfversion
+    \item Mayavi 4.5.0 (Python2)
+    \item \LaTeXe
+\end{itemize}
+
+\section{Hardware}
+Numerical simulations were run in three environments. Massive simulations (over 50000 grains) were run at CCTVal cluster. Nodes have NVIDIA Tesla M-2050 and NVIDIA Tesla K20m. Smaller simulations and debugging tests were run at Laboratory workstation and Personal Laptop. PC has a NVIDIA Geforce GTX 750 Ti. Personal laptop has NVIDIA Geforce 920m. Specific hardware (CPU, RAM, HDD) for each environment is listed at Table \ref{tab:hardware}
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{CCTVal cluster}}\\
+        \hline
+        CPU & Intel(R) Xeon(R) CPU E5-2643 v2 @ 3.50GHz\\
+        RAM & 32 GB\\
+        HDD & 100 GB\\
+        GPU & NVIDIA Tesla M-2050 and NVIDIA Tesla K20m \\
+        \hline
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Laboratory workstation}}\\
+        \hline
+        CPU & AMD FX(tm)-4300 Quad-Core Processor\\
+        RAM & 16 GB\\
+        HDD & Western Digital 500 GB + 1 TB\\
+        GPU & NVIDIA GeForce GTX 750 Ti\\
+        \hline 
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Personal laptop}}\\
+        \hline
+        CPU & Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz\\
+        RAM & 12 GB\\
+        HDD & Intel 545s Series SATA III 2.5'' SSD 512 GB \\
+        GPU & NVIDIA GeForce 920m\\
+        \hline 
+    \end{tabular}
+    
+    \caption{Hardware specifications for work environments.}
+    \label{tab:hardware}
+\end{table}

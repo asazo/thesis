@@ -1,2 +1,47 @@
 \chapter{Introduction}
 \label{chap:introduction}
+
+\lettrine{T}{he} microstructure of polycrystalline materials are composed by small crystallites, called grains which are separated by their interfaces, called grain boundaries, and
+they meet at triple junctions.
+The orientation and shape of these grains define material's properties across wide scales such as thermal and electric conductivity, resistance, fracture toughness, corrosion resistance, among others~\cite{kinderlehrermultiscale, Kinderlehrer2006, Brons2013, torres2015}. 
+%The inner structure of a material is complex enough to be difficult to precisely predict material properties lowering fabrication costs and giving high performance~\cite{gottstein2009grain}.
+
+% Add here more stuff
+
+The improvement of material properties is achieved by inducing the modification of the microstructure through primary recrystallization and mainly through grain growth~\cite{kinderlehrermultiscale, Kinderlehrer2006, Brons2013, torres2015, Piekos2004, pikekos2008stochastic, pikekos2008generalized, Orend2015}. 
+The study of mathematical models and their computational implementation is very important since allows to understand the underlying natural process being modeled. 
+It also allow to asses how accurate the model behaves and
+how stable is under parameter variations.
+% , running different instances, which translates to initial conditions and their size (\ie number of grains). 
+
+All of this allows the extraction of robust statistics that can be compared to the experimental data. 
+Computational scalability and performance of the implementation is important %for the last point
+since running larger in short times is required to
+obtain more reliable statistics. 
+Therefore this study has a strong emphasize on efficient implementation of the main presented models, specifically taking advantage of the graphic processing units (GPUs)~\cite{nvidiacuda, Nickolls:2008:SPP:1365490.1365500}, allowing us to run simulations of the order of hundreds of thousands of grains.
+
+\section{Objectives}
+The main objective of this Thesis is to contrast different grain growth mathematical models in two and three dimensions with the experimental data obtained from real materials through statistics related to geometry and energy of the grain structure. 
+These statistics are average area, number of sides of each grain or grain class, dihedral angle at triple junctions, stored energy, grain boundary energy and misorientation.
+
+% Relate the grain growth process
+
+\subsection{Specific Objectives}
+\begin{itemize}
+    \item Analysis of curvature motion for boundaries and and stability study towards the improvement of the Coupled model developed in~\cite{bachelorthesisasazo} as is a work-in-progress publication \cite{sazocoupled2018}. This is addressed in Chapters~\ref{chap:closedboundary}, \ref{chap:coupledmodel} and \ref{chap:parallelflip}.
+    \item Develop two-dimensional as well as three-dimensional models of grain growth and extract relevant statistics. This is addressed in Chapters~\ref{chap:coupledmodel}, \ref{chap:storedenergy} and \ref{chap:implicit}.
+    \item Use a three-dimensional model of grain growth, generate two-dimensional slices and extract relevant statistics from them to analyze the relation with statistics from two-dimensional models. This is addressed in Chapters~\ref{chap:esedoglu}.
+\end{itemize}
+
+\section{Structure}
+
+The present work is structured as follows. Chapter~\ref{chap:2dgrains} presents a general overview of the two-dimensional grain growth, notation, definitions, the topological transitions idea and topological characteristics related to the periodic boundary conditions used for numerical simulation, all key ideas needed to understand the background of the algorithms that will be presented in the following chapters.
+Chapter~\ref{chap:closedboundary} presents an extensive analysis of curvature driven motion in closed boundaries with the objective of understand the behavior of such motion and apply it to other models. 
+Chapter~\ref{chap:coupledmodel} is an overview of the Coupled Model developed during the bachelor thesis (see~\cite{bachelorthesisasazo}) with improvements of the stability of the interior points that defines grain boundaries by introducing a novel tangential term to the velocity as well as capturing the curvature driven motion by the introduction of a correction coefficient derived from the analysis of closed boundaries. 
+We present numerical experiments related to this accomplishment.
+Chapter~\ref{chap:storedenergy} presents the Continuous Stored Energy Vertex Model which is an extension of a Vertex Model for grain growth and includes a new term that allows nucleation, that is, the introduction of new grains that can grow despite having three sides. 
+An extensive analysis of the conditions that allows growing is presented along with numerical experiments comparing nucleation and grain growth processes.
+Chapter~\ref{chap:parallelflip} develops a parallel algorithm for handling topological transitions since the continuous formulations for Vertex Model and Coupled Model consider this stage as sequential and thus is a non optimized part of both algorithms. This is required since the implemented code for this Thesis was done for a GPU.
+Chapter~\ref{chap:implicit} presents a three-dimensional model for grain growth based on the idea of the Vertex model. The model is a first approach to obtain an algorithm free of explicit handling of topological transitions since the topological transitions increase their complexity in higher dimensions.
+Chapter~\ref{chap:esedoglu} briefly introduces a three-dimensional model from the state-of-the-art and a procedure to extract two-dimensional slices of the simulated grain structure and then obtain statistics using image analysis software techniques.
+Finally, Chapter~\ref{chap:conclusions} resumes the conclusions of each chapter and presents future work.

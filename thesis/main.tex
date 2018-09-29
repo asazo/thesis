@@ -1,5 +1,6 @@
 \documentclass[letterpaper,oneside,12pt,english]{book}
 
+\usepackage[main=english,spanish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{tocbibind} % Bibliografía en el indice
@@ -39,20 +40,26 @@
 \usepackage{graphicx}
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{tikz}
-\usetikzlibrary{external}
-\usetikzlibrary{calc}
+\usetikzlibrary{shapes.geometric,backgrounds,calc,external,decorations.pathreplacing,calligraphy,bending,arrows,shapes.misc,arrows.meta}
+\usepackage{smartdiagram}
 \tikzexternalize % activate!
 
 \usepackage{lettrine}
 \setcounter{DefaultLines}{2}
-\renewcommand{\LettrineFontHook}{\bfseries \color{BrickRed}}
+%\renewcommand{\LettrineFontHook}{\bfseries \color{BrickRed}}
+\usepackage{Typocaps, Rothdn}
+\renewcommand{\LettrineFontHook}{\Rothdnfamily}
 
-\hyphenation{mo-de-ling}
-\hyphenation{in-tra-gra-nu-lar}
-\hyphenation{boun-dary}
+\usepackage{numprint}
+\npthousandsep{,}
+
+
+\hyphenation{mod-e-ling}
+\hyphenation{in-tra-gran-u-lar}
+\hyphenation{bound-ary}
 \hyphenation{common}
 \hyphenation{classic}
-\hyphenation{exam-ple}
+\hyphenation{ex-am-ple}
 \hyphenation{ma-te-rialia}
 
 \graphicspath{{figures/}}
@@ -87,7 +94,8 @@
 
 \input{chapters/macros.tex}
 
-\title{Computational Analysis of a 3D Vertex Model for Grain Growth in Polycrystalline Material}
+%\title{Computational Analysis of a 3D Vertex Model for Grain Growth in Polycrystalline Material}
+\title{Analysis of 2D and 3D Models for Grain Growth in Polycrystalline Materials}
 \author{Alejandro Herminio José Sazo Gómez}
 
 \lstset{ %
@@ -117,16 +125,17 @@ morekeywords={*,...}            % if you want to add more keywords to the set
 \frontmatter
 \input{chapters/title.tex} 
 %\input{chapters/dedicado.tex}
-%\input{chapters/agradecimientos.tex} 
-%\input{chapters/resumen.tex} 
+\input{chapters/agradecimientos.tex} 
+\input{chapters/resumen.tex} 
 \markboth{}{}
 \tableofcontents 
-\listoftables
+%\listoftables
 \listoffigures
 \listofalgorithms
 \renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
 \algnewcommand\algorithmicforeach{\textbf{for each}}
 \algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+
 
 \mainmatter
 \input{chapters/introduction.tex}
@@ -135,26 +144,23 @@ morekeywords={*,...}            % if you want to add more keywords to the set
 \input{chapters/coupled_model.tex}
 \input{chapters/stored_energy.tex}
 \input{chapters/polling_system.tex}
-
 \input{chapters/3d_voronoi.tex}
-\input{chapters/esedoglu.tex}\i\input{chapters/grain_statistics.tex}
-%\input{chapters/chap7.tex}
-%\input{chapters/conclusion.tex}
+\input{chapters/esedoglu.tex}
+\input{chapters/conclusion.tex}
 
 
 \bibliographystyle{abbrv}
-\bibliography{References}
+\bibliography{references}
 %
 %\bibliographystyle{IEEEtran}
 
 % --- Para los apendices
-%\renewcommand{\appendixname}{Anexo}
-%\renewcommand{\appendixtocname}{Anexo}
-%\renewcommand{\appendixpagename}{Anexo}
+\renewcommand{\appendixname}{Appendix}
+\renewcommand{\appendixtocname}{Appendix}
+\renewcommand{\appendixpagename}{Appendix}
 
-%\begin{appendices}
-
-%\input{chapters/anexo1.tex}
-%\end{appendices}
+\begin{appendices}
+\input{chapters/appendix.tex}
+\end{appendices}
 
 \end{document}

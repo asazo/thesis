@@ -33,11 +33,13 @@
 %%% GRAINS COMMANDS
 
 % Grains set
-\newcommand{\grains}{\bm{\Sigma}}
+\newcommand{\grn}{\mathcal{G}}
+\newcommand{\grains}{\bm{\mathcal{G}}}
 % Boundaries set
-\newcommand{\boundaries}{\bm{\Gamma}}
+\newcommand{\bnd}{\Gamma}
+\newcommand{\boundaries}{\bm{\bnd}}
 % Vertices set
-\newcommand{\vertices}{\mathcal{X}}
+\newcommand{\vertices}{\bm{\mathcal{X}}}
 
 % Vectorial notation
 % #1 objective vector
@@ -57,9 +59,14 @@
 
 % discrete data
 \DeclareDocumentCommand \x { o o }{ \vectorial{x}[#1][#2] }
+% discrete data
+\DeclareDocumentCommand \y { o o }{ \vectorial{y}[#1][#2] }
 % Capital bold X
 \newcommand{\X}{\vectorial{X}}
+% dot x
 \DeclareDocumentCommand \dotx { o o }{ \vectorial{\dot{x}}[#1][#2] }
+% dot y
+\DeclareDocumentCommand \doty { o o }{ \vectorial{\dot{y}}[#1][#2] }
 % Canonical vector
 \newcommand{\ei}[1]{\mathbf{e}_{#1}}
 % xi boundary
@@ -72,8 +79,12 @@
 \newcommand{\dxidt}{\dfrac{\partial \vxi}{\partial t}}
 % Tangent vector
 \newcommand{\T}{\vec{T}}
+% Hat tangent vector
+\newcommand{\hatT}{\widehat{\vec{T}}}
 % Normal vector
 \newcommand{\N}{\vec{N}}
+% Hat normal vector
+\newcommand{\hatN}{\widehat{\vec{N}}}
 % Rate of change area
 \newcommand{\dAdt}{\dfrac{dA}{dt}}
 % Velocity vector
@@ -105,6 +116,8 @@
 \newcommand{\phii}[2]{\phi_{#1}^{\phantom{()}}\!\!\!\left(#2\right)}
 % Boundary definition
 \newcommand{\boundary}{ \sum_{i=1}^{n} \x[i][k](t)\,\phii{i}{s}}
+% Boundary definition 2
+\newcommand{\boundarytwo}{ \sum_{i=1}^{n} \x[i](t)\,\phii{i}{s}}
 % Velocity boundary
 \newcommand{\velboundary}{ \sum_{i=1}^{n} \dotx[i](t)\,\phii{i}{s}}
 % Stored energy

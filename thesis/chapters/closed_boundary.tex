@@ -1,12 +1,18 @@
 \chapter{Closed Boundary Motion}
 \label{chap:closedboundary}
 
-\lettrine{A}{n} interesting case of study for understanding mathematical and numerical aspects of grain growth simulation is to understand the growth of a closed boundary which tries to minimize its energy. Let $\vxi(s,t) = \langle x(s,t), y(s,t)\rangle,\, s \in [0, 2\pi]$ a closed curve in $\Reals^2$ such that $\vxi(0,t) = \vxi(2\pi,t)$, where $s$ is the parametrization variable and $t$ is the time variable. This will be the base definition of a closed boundary. Let $\mylvec(s,t) = \dxids(s,t)$ a tangent vector to the boundary $\vxi$ and $\T(s,t) = \unitl$ the unit tangent vector in the same direction. Also let $\N(s,t) = \dTds(s,t)$ a unit normal vector to $\vxi$. From the total energy equation in \eqref{eq:energy}, the energy of this boundary becomes a single integral term:
+\lettrine{A}{n} interesting case of study for understanding mathematical and numerical aspects of grain growth simulation is to understand the evolution of a closed boundary which tries to minimize its energy. 
+Let $\vxi(s,t) = \langle x(s,t), y(s,t)\rangle,\, s \in [0, 2\pi]$ a closed curve in $\Reals^2$ such that $\vxi(0,t) = \vxi(2\pi,t)$, where $s$ is the parametrization variable and $t$ is the time variable. 
+This will be the base definition of a closed boundary. 
+Let $\mylvec(s,t) = \dxids(s,t)$ a tangent vector to the boundary $\vxi$ and $\T(s,t) = \unitl$ the unit tangent vector in the same direction. 
+Also let $\N(s,t) = \dTds(s,t)$ a unit normal vector to $\vxi$. 
+From the total energy equation in \eqref{eq:energy}, the energy of this boundary becomes a single integral term:
 \begin{equation}
     E(t) = \int_0^{2\pi} \norm{\mylvec(s,t)}\, ds,
     \label{eq:energyclosed}
 \end{equation}
-where for simplicity we assumed an isotropic regime, \ie $\gamma = 1$. Taking the derivative of \eqref{eq:energyclosed} with respect to the time yields:
+where for simplicity we assumed an isotropic regime, \ie $\gamma = 1$. 
+Taking the derivative of \eqref{eq:energyclosed} with respect to the time yields:
 \begin{equation}
     \dfrac{dE}{dt}(t) = \int_0^{2\pi} \unitl \cdot \dlvecdt(s,t) \, ds.
     \label{eq:dEdtclosed}
@@ -25,7 +31,7 @@ Thus, we will use \eqref{eq:dEdtclosed3} to understand the motion of a closed bo
 
 \section{Curvature based motion}
 
-Curvature based grain growth models assumes that the velocity of the boundaries is in the direction of its normal vector and proportional to its curvature $\kappa(s,t)$ \cite{Kinderlehrer2006}. Thus the velocity of the boundary can be defined as \cite{thomascalculus}:
+Curvature based grain growth models assumes that the velocity of the boundaries is in the direction of its normal vector and proportional to its curvature $\kappa(s,t)$~\cite{Kinderlehrer2006}. Thus the velocity of the boundary can be defined as~\cite{thomascalculus}:
 \begin{equation}
     \vel(s,t) = \kappa(s,t)\N(s,t). %\label{eq:closedboundaryvelocity}
     \nonumber
@@ -54,9 +60,17 @@ Therefore to obtain curvature based motion we need to compute the grain boundary
 \begin{equation} \vel(s,t) = \frac{1}{\norm{\mylvec(s,t)}}\dTds(s,t). \label{eq:curvvelocity}
 \end{equation}
 
-\section{Coupled model based motion}
+\section{Motion for a Closed Boundary with Discrete Points}
 
-Let's consider the same boundary parametrization as the coupled model from \eqref{eq:boundarydiscret}. We do not need to handle a special treatment of vertices and interior points.  Since we are dealing with a periodic condition for this grain boundary, instead of classic Lagrange interpolator functions $\phi_i$, we should use another interpolation basis, for example the periodic sinc interpolator \cite{trefethen2000spectral}. The velocity of the boundary $\vel$ is expressed in terms of the parametrization as:
+%Let's consider the same boundary parametrization as the coupled model from \eqref{eq:boundarydiscret}. We do not need to handle a special treatment of vertices and interior points.
+Let's consider the boundary $\vxi(s,t)$ and a continuous representation via the collocation points $\vertices = \{\x_1,\dotsc,\x_n\}$ and a interpolating function $\phi$ as:
+\begin{equation}
+    \vxi(s,t) = \boundarytwo,\quad s \in [0,2\pi].
+\end{equation}
+Due to our construction of the boundary, this interpolating function must preserve the periodicity. 
+For example an interpolating function to be considered here is the periodic $\sinc$~\cite{trefethen2000spectral}. 
+The velocity of the boundary $\vel$ is expressed in terms of the parametrization as:
+%Since we are dealing with a periodic condition for this grain boundary, instead of classic Lagrange interpolating functions $\phi_i$, we should use another interpolation basis, for example the periodic sinc interpolator \cite{trefethen2000spectral}. The velocity of the boundary $\vel$ is expressed in terms of the parametrization as:
 \begin{equation}
     \vel(s,t) = \velboundary.
 \end{equation}
@@ -73,14 +87,20 @@ The velocity at the boundary points $\x[i]$ can be defined from \eqref{eq:dEdtbo
     \label{eq:coupledvelocity}
 \end{equation}
 %
-where we introduced the curvature term from \eqref{eq:curvresult} for each discrete boundary point and a constant $\zeta$ which depends on the specific parametrization and interpolation and will be defined in the next section. This evolution equation contrasts with the curvature based evolution equation found before. Here we have instead of a normal vector at a given point an integral along the boundary. In order to find more agreement with the curvature based equation, we can study a circular boundary which holds simple formulas.
+where we introduced the curvature term from \eqref{eq:curvresult} for each discrete boundary point and a constant $\zeta$ which depends on the specific parametrization and interpolation and will be defined in the next section. 
+This evolution equation differs with the curvature based evolution equation found before in \eqref{eq:curvvelocity}. 
+Here we have instead a \emph{integral} normal vector at a given point along the boundary.
+It can be seen as a smoothed normal term.
+In order to %find more agreement with the curvature based 
+understand this evolution equation, we will study a circular boundary in the next subsection, in which simple formulas can be obtained.
 
 %The following sections shows the theoretical evolution of a circular boundary and how the discrete boundary equations successfully approaches the evolution. This result can be extended to general boundary shapes, whilst the theoretical ratios are not derived in the later, a generic boundary evolving and minimizing energy reaches a state where becomes a circle, and thus the prior results are again valid.
 
 \subsection{Circular Boundary}
 \label{sec:circularboundary}
 
-This simple case is very illustrative, since we can obtain an explicit formula for $\dfrac{dE}{dt}$ and also the area rate of change $\dfrac{dA}{dt}$ . First we describe analytic results for boundary evolution and then we apply the coupled model idea of interpolate the boundary and obtain new equations.
+This simple case is very illustrative, since we can obtain an explicit formula for $\dfrac{dE}{dt}$ and also the area rate of change $\dfrac{dA}{dt}$. 
+First we describe analytic results for the boundary evolution and then we apply the coupled model idea to interpolate the boundary and obtain the new evolution equations.
 
 The equation that describes this boundary is:
 \begin{equation}
@@ -110,7 +130,7 @@ Considering that the boundary moves proportional to the curvature and in a norma
     &= -2\pi \kappa(t) \label{eq:dEdtcircle}
 \end{align}
 
-Area rate of change can also be obtained from the definition of area given the boundary parametrization in \eqref{eq:circle}:
+The rate of change of the area can also be obtained from the definition of area given the boundary parametrization in \eqref{eq:circle}:
 \begin{align}
     A(t) &= \frac{1}{2} \int_0^{2\pi} \norm{\vxi(s,t)}^2\, ds\nonumber\\
     \dAdt(t) &= \int_0^{2\pi} \vxi(s,t)\cdot \vel(s,t)\,ds \nonumber\\
@@ -121,9 +141,15 @@ This means that the rate of change for the area of a circle is constant. The evo
 \begin{align}
     \frac{dR}{dt}(t) &= -\frac{1}{R(t)} \label{eq:circvel}\\
     %\frac{1}{2}(R(t)^2 - R(0)^2) &= t \\
-    R(t) &= \sqrt{R_0^2 - 2t} \label{eq:radii},
+    R(0) &= R_0, \nonumber
+    %R(t) &= \sqrt{R_0^2 - 2t} \label{eq:radii},
 \end{align}
-where $R(0) = R_0$ is the initial radius of the circle at time $t=0$. The equation is valid as long as $R_0^2 > 2t$. In the limit, the circle should become a single point, and related vectors becomes indeterminate. Finally, the complete description of a circular boundary is given by:
+where $R_0$ is the initial radius of the circle at time $t=0$. The solution therefore is,
+\begin{equation}
+    R(t) = \sqrt{R_0^2 - 2t}.
+    \label{eq:radii}
+\end{equation}
+The solution is valid as long as $R_0^2 > 2t$. In the limit, the circle should become a single point, and the related vectors becomes indeterminate. Finally, the complete description of a circular boundary is given by:
 \begin{equation}
     \vxi(s,t) = \sqrt{R_0^2 - 2t}\,\langle \cos(s), \sin(s) \rangle.
 \end{equation}
@@ -137,20 +163,20 @@ where $\phi$ the periodic $\sinc$ interpolation function. Notice that this defin
     &= -\frac{1}{R(t)}  \frac{2\pi}{n}\left\langle\cos \left(\frac{2\pi i}{n}\right), \sin\left(\frac{2\pi i }{n}\right)\right\rangle.
     \label{eq:curvaturevelocity}
 \end{align}
-Under $\sinc$ interpolant, the constant $\zeta$ from \eqref{eq:coupledvelocity} becomes $2\pi/n$. Figure \ref{fig:circularboundary} shows the evolution of the boundary with 14 points using the velocity equation from \eqref{eq:curvaturevelocity}. The discrete data is extracted from a circle and then is interpolated using the sinc periodic interpolator. For this example we set $R_0 = 2$, which implies that the limit time of the simulation is $t_{lim}=2$. The theoretical description of the circle matches qualitatively with the interpolated curve, and for simplicity of presentation the theoretical circle is not shown. 
+Under the $\sinc$ interpolant, the constant $\zeta$ from \eqref{eq:coupledvelocity} becomes $2\pi/n$. Figure \ref{fig:circularboundary} shows the evolution of the boundary with 14 points using the velocity equation from \eqref{eq:curvaturevelocity}. The discrete data is extracted from a circle and then is interpolated using the sinc periodic interpolator. For this example we set $R_0 = 2$, which implies that the limit time of the simulation is $t_{\text{lim}}=2$. The theoretical description of the circle matches qualitatively with the interpolated curve, and for simplicity of presentation the theoretical circle is not shown. 
 
 \begin{figure}[t]
     \centering
-    \includegraphics[scale=0.6]{circularboundary.pdf}
-    \caption[Circular boundary evolution]{(Top left) The initial condition at $t=0$ of the circular boundary with $R_0 = 2$. (Top right, bottom left) After some time the circle start to shrink and the velocity of the boundary increases. (Bottom right) Near $t=2$ the circle becomes smaller and the velocity vectors increased their magnitude.}
+    \includegraphics[scale=0.6]{closed_boundary/circularboundary.pdf}
+    \caption[Circular boundary evolution]{Evolution of circular boundary. Velocity vectors are marked in blue gradient, white for the smallest vector and blue for the largest. (Top left) The initial condition at $t=0$ of the circular boundary with $R_0 = 2$. (Top right, bottom left) After some time the circle start to shrink and the velocity of the boundary increases. (Bottom right) Near $t=2$ the circle becomes smaller and the velocity vectors increased their magnitude.}
     \label{fig:circularboundary}
 \end{figure}
 
-Figure \ref{fig:circularboundary_area} and \ref{fig:circularboundary_energy} shows relevant statistics of the experiment. Boundary area is in good agreement with the theoretical area. Area rate of change shows that whilst we should expect exactly $\dAdt = -2\pi$, we get some oscillations around this value, increasing in magnitude as simulation reaches $t_{lim}$. Actually the simulation is stopped at some time before reach $t_{lim}$, because of the mentioned acceleration of the circular boundary. The grain boundary energy under isotropic regime becomes just the perimeter of the circle $P(t) = 2\pi R(t)$. The measured energy of the simulated circle is a monotonic decreasing function in good agreement with the theoretical perimeter obtained from the radii in \eqref{eq:radii}, as well as the rate of change of the energy. 
+Figures~\ref{fig:circularboundary_area} and ~\ref{fig:circularboundary_energy} shows relevant statistics of the experiment. Boundary area is in good agreement with the theoretical area. Area rate of change shows that whilst we should expect exactly $\dAdt = -2\pi$, we get some oscillations around this value, increasing in magnitude as simulation reaches $t_{\text{lim}}$. Actually the simulation is stopped at some time before reach $t_{\text{lim}}$, because of the mentioned acceleration of the circular boundary. The grain boundary energy under isotropic regime becomes just the perimeter of the circle $P(t) = 2\pi R(t)$. The measured energy of the simulated circle is a monotonic decreasing function in good agreement with the theoretical perimeter obtained from the radii in \eqref{eq:radii}, as well as the rate of change of the energy. 
 
 \begin{figure}[t]
     \centering
-    \includegraphics[scale=0.55]{circularboundary_area.pdf}
+    \includegraphics[scale=0.55]{closed_boundary/circularboundary_area.pdf}
     \subfloat[\label{fig:area}]{\hspace{.55\linewidth}}
     \subfloat[\label{fig:dAdt}]{\hspace{.45\linewidth}}
     \caption[Circular boundary area and rate of change]{(a) Circle area is in good agreement with the theoretical description. (b) Rate of change is not constant in the numerical simulation, but it is near the theoretical value.}
@@ -159,7 +185,7 @@ Figure \ref{fig:circularboundary_area} and \ref{fig:circularboundary_energy} sho
 
 \begin{figure}[t]
     \centering
-    \includegraphics[scale=0.55]{circularboundary_energy.pdf}
+    \includegraphics[scale=0.55]{closed_boundary/circularboundary_energy.pdf}
     \subfloat[\label{fig:circenergy}]{\hspace{.55\linewidth}}
     \subfloat[\label{fig:circdEdt}]{\hspace{.45\linewidth}}
     \caption[Circular boundary energy and rate of change]{(a) Grain energy function is in good agreement with the evolution of the perimeter of the circle. (b) Rate of change of the energy, in agreement with the precipitation of the boundary motion as the radio goes to zero.}
@@ -174,12 +200,13 @@ Most grains and their boundaries are not restricted to hold circular shapes. The
 \end{equation*}
 using 14 interpolation points. The number of points is chosen merely to resemble the interpolated function. The simulation is performed using the curvature equations from \eqref{eq:curvaturevelocity}. 
 
-Figure \ref{fig:nonregularboundary} shows the evolution of the polar rose. The equations used ensures energy minimization, which induces that the velocity of the discrete points lying in the concave sections points outside the the rose, trying to achieve some iterations later a fully convex form. In the convex form now the points try to approximate a circle shape, which leads to the known evolution presented in Section \ref{sec:circularboundary}. Figures \ref{fig:nonregularboundary_area} and \ref{fig:nonregularboundary_energy} shows relevant statistics of the experiment. The polar rose area shows qualitatively linear behavior, but a closer look to the derivative shows that there is some perturbation during the minimization, which is soften towards the end of the simulation. The grain boundary energy shows a monotonic decreasing behavior, and its derivative shows a transient where the derivative becomes less negative due to the polar rose correcting its concave parts. After the rose becomes a convex figure, the derivative becomes more and more negative, until numerical collapse at the end of the evolution.
+Figure~\ref{fig:nonregularboundary} shows the evolution of the polar rose. The equations used ensures energy minimization, which induces that the velocity of the discrete points lying in the concave sections points outside the the rose, trying to achieve some iterations later a fully convex form. In the convex form now the points try to approximate a circle shape, which leads to the known evolution presented in Section~\ref{sec:circularboundary}. Figures~ \ref{fig:nonregularboundary_area} and~ \ref{fig:nonregularboundary_energy} shows relevant statistics of the experiment. The polar rose area shows qualitatively linear behavior, but a closer look to the derivative shows that there is some perturbation during the minimization, which is soften towards the end of the simulation. The grain boundary energy shows a monotonic decreasing behavior, and its derivative shows a transient where the derivative becomes less negative due to the polar rose correcting its concave parts. After the rose becomes a convex figure, the derivative becomes more and more negative, until numerical collapse at the end of the evolution.
 
 \begin{figure}[t]
     \centering
-    \includegraphics[scale=0.6]{nonregularboundary.pdf}
-    \caption[Non-regular boundary evolution]{(Top left) The initial condition at $t=0$ for the polar rose. (Top right) After some time the boundary is driven to correct the curvature while trying to minimize energy. (Bottom left) The boundary is completely convex and all the velocity vectors points to the interior. (Bottom right) The polar rose now has a circle-like shape and the velocity vectors tends to point to the center.}
+    \includegraphics[scale=0.6]{closed_boundary/nonregularboundary.pdf}
+    \caption[Non-regular boundary evolution]{Evolution of non-regular boundary. Velocity vectors are marked in blue gradient, white for the smallest vector and blue for the largest.
+    (Top left) The initial condition at $t=0$ for the polar rose. (Top right) After some time the boundary is driven to correct the curvature while trying to minimize energy. (Bottom left) The boundary is completely convex and all the velocity vectors points to the interior. (Bottom right) The polar rose now has a circle-like shape and the velocity vectors tends to point to the center.}
     \label{fig:nonregularboundary}
 \end{figure}
 
@@ -187,7 +214,7 @@ Figure \ref{fig:nonregularboundary} shows the evolution of the polar rose. The e
 
 \begin{figure}[t]
     \centering
-    \includegraphics[scale=0.55]{nonregularboundary_area.pdf}
+    \includegraphics[scale=0.55]{closed_boundary/nonregularboundary_area.pdf}
     \subfloat[\label{fig:noncircarea}]{\hspace{.55\linewidth}}
     \subfloat[\label{fig:noncircdAdt}]{\hspace{.45\linewidth}}
     \caption[Non-regular boundary area and rate of change]{(a) Polar rose area shows qualitatively linear behavior, as expected. (b) Rate of change is not constant in the numerical simulation but tries to stabilize.}
@@ -196,7 +223,7 @@ Figure \ref{fig:nonregularboundary} shows the evolution of the polar rose. The e
 
 \begin{figure}[t]
     \centering
-    \includegraphics[scale=0.55]{nonregularboundary_energy.pdf}
+    \includegraphics[scale=0.55]{closed_boundary/nonregularboundary_energy.pdf}
     \subfloat[\label{fig:noncircenergy}]{\hspace{.55\linewidth}}
     \subfloat[\label{fig:noncircdEdt}]{\hspace{.45\linewidth}}
     \caption[Non-regular boundary energy and rate of change]{(a) Grain energy function shows a monotonic decreasing behavior. (b) Rate of change of the energy collapses at the end of the simulation, meaning that the polar rose is becoming a single point.}
