@@ -8,7 +8,7 @@
 % template and not specifically distribute it as part of a another
 % package/program, I grant the extra permission to freely copy and
 % modify this file as you see fit and even to delete this copyright
-% notice. 
+% notice.
 
 %\documentclass{beamer}
 \documentclass[usenames,dvipsnames]{beamer}
@@ -199,7 +199,7 @@ Growth in Polycrystalline Materials}
 
 \begin{frame}{Introduction}
     The microstructure of polycrystalline materials are composed by small crystallites, called grains which are separated by their interfaces, called grain boundaries, and they meet at triple junctions.
-    
+
     \begin{figure}
         \centering
         \includegraphics[scale=0.25, valign=t]{figures/extras/aluminum.png}\hspace{2em}
@@ -219,7 +219,7 @@ Growth in Polycrystalline Materials}
 
 \begin{frame}{Introduction}
     All of this allows the extraction of robust statistics that can be compared to the experimental data.  Computational scalability and performance of the implementation is important since running larger in short times is required to obtain more reliable statistics.\\
-    
+
     This study has a strong emphasis on efficient implementation of the main presented models, specifically taking advantage of the graphic processing units (GPUs) [18, 17], allowing us to run simulations of the order of hundreds of thousands of grains.
 \end{frame}
 
@@ -257,11 +257,11 @@ To contrast different grain growth mathematical models in 2D and 3D with the exp
 \vspace{0.5em}
 \tiny
     Closed boundary study to capture curvature motion.\\
-    
+
     Total Velocity as the result of a normal and tangential component.\\
-    
+
     Multistep Euler and RK2, better estimation of $t_{\text{ext}}$.\\
-    
+
     The Predictor-Corrector Algorithm.
 \end{minipage}%
 \hspace{2em}%
@@ -449,9 +449,9 @@ The total velocity of interior points is defined as:
         \dfrac{d}{dt}\left(\dfrac{\norm{\mylvec_i(t)}}{\AL(t)}\right)=0, \quad i\in \{2,\dots,n-2\},
     \end{equation*}
     where $\norm{\mylvec_i(t)}$ denotes the local arc length at collocation point $s_i$.
-    
+
     This restriction is used to compute $\color{bb} \alpha_i(t)$ that will scale the unit tangent vector $\color{bb} \hatT_i$ orthogonal to the unit normal $\color{red}\hatN_i$.
-    
+
     This introduced component also ensures decreasing the total energy.
     \end{minipage}%
     \begin{minipage}[t]{0.5\textwidth}
@@ -487,7 +487,13 @@ The total velocity of interior points is defined as:
 \subsection{Flipping and Extinction Time Study}
 
 \begin{frame}{Flipping and Extinction Time}
-Topological transitions are the result of coarsening during grain growth. Flipping consists in the collapse of a boundary and switching neighboring boundaries, the new boundary then grows.
+Topological transitions are the result of coarsening during grain growth.
+\begin{itemize}
+  \item Flippings
+  \item Grain removals.
+  \item Nucleations.
+\end{itemize}
+Flipping consists in the collapse of a boundary and switching neighboring boundaries, the new boundary then grows.
 \begin{figure}
     \centering
     \includegraphics[scale=0.5]{figures/coupled_model/flipping.pdf}
@@ -513,7 +519,7 @@ Even if we reduce $\Delta t$ sometimes we will not be able to detect the flippin
     \end{itemize}
     \vspace{1em}
     We also improve the interval where we detect flippings as follows:
-    
+
     \begin{figure}[t]
     \centering
     \begin{adjustbox}{max totalsize={.9\textwidth}{.7\textheight},center}
@@ -528,7 +534,7 @@ Even if we reduce $\Delta t$ sometimes we will not be able to detect the flippin
         \coordinate (x6) at (12,0);
         \coordinate (x7) at (13,0);
         \coordinate (A) at (4.2,2);
-        
+
         % vertices
         \filldraw [black] (x1) circle (1.5pt);
         \filldraw [black] (x2) circle (1.5pt);
@@ -536,29 +542,29 @@ Even if we reduce $\Delta t$ sometimes we will not be able to detect the flippin
         \filldraw [black] (x4) circle (1.5pt);
         \filldraw [black] (x5) circle (1.5pt);
         \filldraw [black] (x6) circle (1.5pt);
-        
+
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % boundaries
         \draw[line width=0.4mm, black] (x1) -- (x6);
         \draw[line width=0.4mm, black, dashed] (x0) -- (x1);
         \draw[line width=0.4mm, black, dashed] (x6) -- (x7);
-        
+
         \draw[decoration={calligraphic brace,mirror,amplitude=1em,raise=1.5em},decorate,line width=1.5pt, pen colour={Red}]
           (x1) -- node[below=2.5em, color=Red,text width=4cm] {\textsf{Detect flippings with} $t_{\text{ext}} \in [0, 2\Delta t- r\Delta \tau]$} (x6);
-         
+
         \node[shape=circle,draw,inner sep=1pt,line width=1pt, color=Red] at (3.6,-1.4) {\textsf{1}};
-         
+
         \node[shape=circle,draw,inner sep=1pt,line width=1pt, color=Green] at (6.1,0.77) {\textsf{3}};
-         
+
         \draw[pen colour={Green}, decoration={calligraphic brace,amplitude=1em,raise=0.3em},decorate,line width=1.5pt]
           (x5) -- node[above=1em,color=Green,text width=5cm] {\textsf{Advance to this zone safely}} (x6);
-         
-         
+
+
          \node[shape=circle,draw,inner sep=1pt,line width=1pt, color=Orange] at (1.6,2.8) {\textsf{2}};
-         
+
          \draw[->,Orange,ultra thick] (A) -- ($(x5)+(-0.1,0.1)$);
          \node[draw=none, color=Orange, above, text width=4.5cm] at (A) {\textsf{Perform flippings before advance to} $t+\Delta t$};
-        
+
         % Text
         \node[draw=none, color=black, below] at (x1) {$t$};
         \node[draw=none, color=black, below] at (x2) {$\scriptstyle t+\Delta \tau$};
@@ -617,19 +623,19 @@ The \textbf{Predictor-Detector Algorithm} is used to overcome the growth.
         \node[draw=none, color=black, above right] at (x1) {$\x_4(t)$};
         \node[draw=none, color=black, above] at (i0) {$\x_2(t)$};
         \node[draw=none, color=black, below] at (i1) {$\x_3(t)$};
-        
+
         \node[draw=none, color=black, below] at (1,-0.8) {$\dotx_2(t)$};
         \node[draw=none, color=black, above] at (4.5,0.45) {$\dotx_3(t)$};
         % Vertices have evolved and we mark de future steady state
          \draw[line width=0.4mm, black!50, dashed] (x2) -- (x3);
         % Draw the boundary as seen by the interior points which have not been moved
         \draw[line width=0.4mm] plot [smooth, tension=1] coordinates {(x0) (i0) (i1) (x1)};
-        
+
         % Draw velocities
         \draw[->,black,line width=0.5mm] (i0) -- (1,-0.8);
         %\draw[->,black,line width=0.5mm] (i1) -- (4.1,1.3);
         \draw[->,black,line width=0.5mm] (i1) -- (4.05,0.45);
-        
+
         % Draw vertices
         \filldraw [black] (x0) circle (1.5pt);
         \filldraw [black] (x1) circle (1.5pt);
@@ -673,19 +679,19 @@ The \textbf{Predictor-Detector Algorithm} is used to overcome the growth.
         \node[draw=none, color=black, above right] at (x1) {$\x_4(t)$};
         \node[draw=none, color=black, above] at (i0) {$\x_2(t)$};
         \node[draw=none, color=black, below] at (i1) {$\x_3(t)$};
-        
+
         \node[draw=none, color=black, below] at (1,-0.8) {$\dotx_2(t)$};
         \node[draw=none, color=black, above] at (4.5,0.45) {$\dotx_3(t)$};
         % Vertices have evolved and we mark de future steady state
          \draw[line width=0.4mm, black!50, dashed] (x2) -- (x3);
         % Draw the boundary as seen by the interior points which have not been moved
         \draw[line width=0.4mm] plot [smooth, tension=1] coordinates {(x0) (i0) (i1) (x1)};
-        
+
         % Draw velocities
         \draw[->,black,line width=0.5mm] (i0) -- (1,-0.8);
         %\draw[->,black,line width=0.5mm] (i1) -- (4.1,1.3);
         \draw[->,black,line width=0.5mm] (i1) -- (4.05,0.45);
-        
+
         % Draw vertices
         \filldraw [black] (x0) circle (1.5pt);
         \filldraw [black] (x1) circle (1.5pt);
@@ -735,21 +741,21 @@ The \textbf{Predictor-Detector Algorithm} is used to overcome the growth.
         \node[draw=none, color=black, above right] at (x1) {$\x_4(t)$};
         \node[draw=none, color=black, above] at (i0) {$\x_2(t)$};
         \node[draw=none, color=black, below] at (i1) {$\x_3(t)$};
-        
+
         \coordinate (endvel) at (1.11, -0.21333);
         \node[draw=none, color=black, below] at (endvel) {$\widetilde{\dotx}_2(t)$};
         \node[draw=none, color=black, above] at (4.5,0.45) {$\dotx_3(t)$};
-        
+
         % Vertices have evolved and we mark de future steady state
          \draw[line width=0.4mm, black!50, dashed] (x2) -- (x3);
         % Draw the boundary as seen by the interior points which have not been moved
         \draw[line width=0.4mm] plot [smooth, tension=1] coordinates {(x0) (i0) (i1) (x1)};
-        
+
         % Draw velocities
         %\draw[->,black,line width=0.5mm] (i0) -- (1,-0.8);
         \draw[->,black,line width=0.5mm] (i0) -- (endvel);
         \draw[->,black,line width=0.5mm] (i1) -- (4.05,0.45);
-        
+
         % Draw vertices
         \filldraw [black] (x0) circle (1.5pt);
         \filldraw [black] (x1) circle (1.5pt);
@@ -782,10 +788,10 @@ The \textbf{Predictor-Detector Algorithm} is used to overcome the growth.
         % Vertices at time t+dt
         \coordinate (x2) at (0,0.7);
         \coordinate (x3) at (6,0);
-        
+
         \coordinate (pred1) at (1.25382, 0.55372);
         \coordinate (pred2) at (4.02,-0.06);
-        
+
 
         % Labels
         \node[draw=none, color=black, above left] at ($(x2)+(0.5,0)$) {$\x_1(t+\Delta t)$};
@@ -794,16 +800,16 @@ The \textbf{Predictor-Detector Algorithm} is used to overcome the growth.
         %\node[draw=none, color=black, above right] at (x1) {$\x_4(t)$};
         \node[draw=none, color=black, above right] at (pred1) {$\x_2(t+\Delta t)$};
         \node[draw=none, color=black, below] at (pred2) {$\x_3(t+\Delta t)$};
-        
+
         % Vertices have evolved and we mark de future steady state
          \draw[line width=0.4mm, black!50, dashed] (x2) -- (x3);
         % Draw the boundary as seen by the interior points which have not been moved
         \draw[line width=0.4mm] plot [smooth, tension=1] coordinates {(x2) (pred1) (pred2) (x3)};
-        
+
         % Draw vertices
         \filldraw [black] (x2) circle (1.5pt);
         \filldraw [black] (x3) circle (1.5pt);
-        
+
         % Draw predictions
         \filldraw [Turquoise] (pred1) circle (1.5pt);
         \filldraw [Turquoise] (pred2) circle (1.5pt);
@@ -834,19 +840,19 @@ The \textbf{Predictor-Detector Algorithm} is used to overcome the growth.
 %         \node[draw=none, color=black, above right] at (x1) {$\x_4(t)$};
 %         \node[draw=none, color=black, above] at (i0) {$\x_2(t)$};
 %         \node[draw=none, color=black, below] at (i1) {$\x_3(t)$};
-        
+
 %         \node[draw=none, color=black, below] at (1,-0.8) {$\dotx_2(t)$};
 %         \node[draw=none, color=black, above] at (4.5,0.45) {$\dotx_3(t)$};
 %         % Vertices have evolved and we mark de future steady state
 %          \draw[line width=0.4mm, black!50, dashed] (x2) -- (x3);
 %         % Draw the boundary as seen by the interior points which have not been moved
 %         \draw[line width=0.4mm] plot [smooth, tension=1] coordinates {(x0) (i0) (i1) (x1)};
-        
+
 %         % Draw velocities
 %         \draw[->,black,line width=0.5mm] (i0) -- (1,-0.8);
 %         %\draw[->,black,line width=0.5mm] (i1) -- (4.1,1.3);
 %         \draw[->,black,line width=0.5mm] (i1) -- (4.05,0.45);
-        
+
 %         % Draw vertices
 %         \filldraw [black] (x0) circle (1.5pt);
 %         \filldraw [black] (x1) circle (1.5pt);
@@ -885,19 +891,19 @@ The \textbf{Predictor-Detector Algorithm} is used to overcome the growth.
 %         \node[draw=none, color=black, above right] at (x1) {$\x_4(t)$};
 %         \node[draw=none, color=black, above] at (i0) {$\x_2(t)$};
 %         \node[draw=none, color=black, below] at (i1) {$\x_3(t)$};
-        
+
 %         \node[draw=none, color=black, below] at (1,-0.8) {$\dotx_2(t)$};
 %         \node[draw=none, color=black, above] at (4.5,0.45) {$\dotx_3(t)$};
 %         % Vertices have evolved and we mark de future steady state
 %          \draw[line width=0.4mm, black!50, dashed] (x2) -- (x3);
 %         % Draw the boundary as seen by the interior points which have not been moved
 %         \draw[line width=0.4mm] plot [smooth, tension=1] coordinates {(x0) (i0) (i1) (x1)};
-        
+
 %         % Draw velocities
 %         \draw[->,black,line width=0.5mm] (i0) -- (1,-0.8);
 %         %\draw[->,black,line width=0.5mm] (i1) -- (4.1,1.3);
 %         \draw[->,black,line width=0.5mm] (i1) -- (4.05,0.45);
-        
+
 %         % Draw vertices
 %         \filldraw [black] (x0) circle (1.5pt);
 %         \filldraw [black] (x1) circle (1.5pt);
@@ -942,21 +948,21 @@ The \textbf{Predictor-Detector Algorithm} is used to overcome the growth.
 %         \node[draw=none, color=black, above right] at (x1) {$\x_4(t)$};
 %         \node[draw=none, color=black, above] at (i0) {$\x_2(t)$};
 %         \node[draw=none, color=black, below] at (i1) {$\x_3(t)$};
-        
+
 %         \coordinate (endvel) at (1.11, -0.21333);
 %         \node[draw=none, color=black, below] at (endvel) {$\widetilde{\dotx}_2(t)$};
 %         \node[draw=none, color=black, above] at (4.5,0.45) {$\dotx_3(t)$};
-        
+
 %         % Vertices have evolved and we mark de future steady state
 %          \draw[line width=0.4mm, black!50, dashed] (x2) -- (x3);
 %         % Draw the boundary as seen by the interior points which have not been moved
 %         \draw[line width=0.4mm] plot [smooth, tension=1] coordinates {(x0) (i0) (i1) (x1)};
-        
+
 %         % Draw velocities
 %         %\draw[->,black,line width=0.5mm] (i0) -- (1,-0.8);
 %         \draw[->,black,line width=0.5mm] (i0) -- (endvel);
 %         \draw[->,black,line width=0.5mm] (i1) -- (4.05,0.45);
-        
+
 %         % Draw vertices
 %         \filldraw [black] (x0) circle (1.5pt);
 %         \filldraw [black] (x1) circle (1.5pt);
@@ -984,10 +990,10 @@ The \textbf{Predictor-Detector Algorithm} is used to overcome the growth.
 %         % Vertices at time t+dt
 %         \coordinate (x2) at (0,0.7);
 %         \coordinate (x3) at (6,0);
-        
+
 %         \coordinate (pred1) at (1.25382, 0.55372);
 %         \coordinate (pred2) at (4.02,-0.06);
-        
+
 
 %         % Labels
 %         \node[draw=none, color=black, above left] at (x2) {$\x_1(t+\Delta t)$};
@@ -996,18 +1002,18 @@ The \textbf{Predictor-Detector Algorithm} is used to overcome the growth.
 %         %\node[draw=none, color=black, above right] at (x1) {$\x_4(t)$};
 %         \node[draw=none, color=black, above right] at (pred1) {$\x_2(t+\Delta t)$};
 %         \node[draw=none, color=black, below] at (pred2) {$\x_3(t+\Delta t)$};
-        
+
 %         % Vertices have evolved and we mark de future steady state
 %          \draw[line width=0.4mm, black!50, dashed] (x2) -- (x3);
 %         % Draw the boundary as seen by the interior points which have not been moved
 %         \draw[line width=0.4mm] plot [smooth, tension=1] coordinates {(x2) (pred1) (pred2) (x3)};
-        
+
 %         % Draw vertices
 %         %\filldraw [black] (x0) circle (1.5pt);
 %         %\filldraw [black] (x1) circle (1.5pt);
 %         \filldraw [black] (x2) circle (1.5pt);
 %         \filldraw [black] (x3) circle (1.5pt);
-        
+
 %         % Draw predictions
 %         \filldraw [Turquoise] (pred1) circle (1.5pt);
 %         \filldraw [Turquoise] (pred2) circle (1.5pt);
@@ -1021,7 +1027,7 @@ The \textbf{Predictor-Detector Algorithm} is used to overcome the growth.
 
 \begin{frame}{Numerical Experiments}
     \begin{minipage}{0.5\textwidth}
-    
+
     \end{minipage}
 \end{frame}
 
@@ -1037,34 +1043,46 @@ The \textbf{Predictor-Detector Algorithm} is used to overcome the growth.
 \end{frame}
 
 \begin{frame}{Numerical Experiments}
+\vspace{-0.5em}
 \begin{minipage}{0.5\textwidth}
 \begin{figure}
-    \includegraphics[scale=0.45]{figures/coupled_model/new_data/ang.pdf}
+    \includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/new_data/ang.pdf}
 \end{figure}
 \end{minipage}%
 \begin{minipage}{0.5\textwidth}
 \begin{figure}
-    \includegraphics[scale=0.45]{figures/coupled_model/new_data/nsides.pdf}
+    \includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/new_data/nsides.pdf}
+\end{figure}
+\end{minipage}\\
+\begin{minipage}{0.5\textwidth}
+\begin{figure}
+    \includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/new_data/avg.pdf}
+\end{figure}
+\end{minipage}%
+\begin{minipage}{0.5\textwidth}
+\begin{figure}
+    \includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/new_data/dAdt.pdf}
 \end{figure}
 \end{minipage}
 \end{frame}
 
-\begin{frame}{Numerical Experiments}
-\begin{minipage}{0.5\textwidth}
-\begin{figure}
-    \includegraphics[scale=0.45]{figures/coupled_model/new_data/avg.pdf}
-\end{figure}
-\end{minipage}%
-\begin{minipage}{0.5\textwidth}
-\begin{figure}
-    \includegraphics[scale=0.45]{figures/coupled_model/new_data/dAdt.pdf}
-\end{figure}
-\end{minipage}
-\end{frame}
+%\begin{frame}{Numerical Experiments}
+%\begin{minipage}{0.5\textwidth}
+%\begin{figure}
+    %\includegraphics[scale=0.45]{figures/coupled_model/new_data/avg.pdf}
+%\end{figure}
+%\end{minipage}%
+%\begin{minipage}{0.5\textwidth}
+%\begin{figure}
+    %\includegraphics[scale=0.45]{figures/coupled_model/new_data/dAdt.pdf}
+%\end{figure}
+%\end{minipage}
+%\end{frame}
 
 
 \section[Stored Energy Model with Nucleation]{A Continuous Stored Energy Vertex
 Model with Nucleation}
+
 \begin{frame}{A Continuous Stored Energy Vertex
 Model with Nucleation}
 
@@ -1088,7 +1106,7 @@ For this computation we use a {\color{red}matrix-free} approach. We only need to
 \end{frame}
 
 \begin{frame}{Numerical Algorithm}
-Consider the vector $\X \in \mathbb{R}^{2M}$ of stacked components of 
+Consider the vector $\X \in \mathbb{R}^{2M}$ of stacked components of
 $\x_i$, this is $
     \X = (x_1, x_2, \cdots, x_M, y_1, y_2, \cdots, y_M)^T$. Each component $m$ of the gradient of this vector, say $\partial E / \partial \X_m$ can be approximated as
 \begin{equation*}
@@ -1103,7 +1121,7 @@ where $\ei{m}$ is the $m$-th canonical vector in $\mathbb{R}^{2M}$. The energy o
     \centering
     \begin{tikzpicture}
         \coordinate (v1) at (0,0);
-        \coordinate (v2) at (3, 0.6);
+        \coordinate (v2) at (2.7, 1.5);
         \coordinate (v3) at (3.6, -0.5);
         \coordinate (v4) at (2.5, -3);
         \coordinate (v5) at (0.1, -2.5);
@@ -1112,8 +1130,8 @@ where $\ei{m}$ is the $m$-th canonical vector in $\mathbb{R}^{2M}$. The energy o
         \coordinate (v8) at (-2.5, -4);
         \coordinate (v9) at (-2.5, 2.5);
         \coordinate (v10) at (-1.1, 3.5);
-        \coordinate (v11) at (1, 3);
-        \coordinate (v12) at (3,2);
+        \coordinate (v11) at (1, 3.3);
+        \coordinate (v12) at (2.6,2.8);
         \coordinate (pert) at ($(v1) + (0.3, 0)$);
         % grain 1
         \draw[line width=0.3mm, black] (v1) -- (v2);
@@ -1143,14 +1161,14 @@ where $\ei{m}$ is the $m$-th canonical vector in $\mathbb{R}^{2M}$. The energy o
         \filldraw [black] (v6) circle (1.2pt);
         \filldraw [black] (v5) circle (1.2pt);
         \filldraw [red] (pert) circle (1.2pt);
-        
+
         % Fill perturbed area
-        \fill[opacity=0.3, black] (v1) -- (v6) -- (v7) -- (v8) -- (v5) -- cycle; 
-        
+        \fill[opacity=0.3, black] (v1) -- (v6) -- (v7) -- (v8) -- (v5) -- cycle;
+
         % Labels
         \node[draw=none, color=black] at (-0.3, -0.2) {$\x_i$};
         \node[draw=none, color=red] at (1.5, -0.2) {$\x_i + \langle \delta,0 \rangle$};
-        \node[draw=none, color=black] at (3.5, 0.6) {$\x_{j1}$};
+        \node[draw=none, color=black, right] at (v2) {$\x_{j1}$};
         \node[draw=none, color=black] at (-2.5, 1) {$\x_{j2}$};
         \node[draw=none, color=black] at (0.1, -3) {$\x_{j3}$};
         \node[draw=none, color=black] at (0.2, 2) {$g_2$};
@@ -1161,81 +1179,80 @@ where $\ei{m}$ is the $m$-th canonical vector in $\mathbb{R}^{2M}$. The energy o
 \end{frame}
 
 
+\begin{frame}[noframenumbering]{Numerical Algorithm}
+ \begin{figure}[t]
+     \centering
+     \begin{tikzpicture}
+        \coordinate (v1) at (0,0);
+        \coordinate (v2) at (2.7, 1.5);
+        \coordinate (v3) at (3.6, -0.5);
+        \coordinate (v4) at (2.5, -3);
+        \coordinate (v5) at (0.1, -2.5);
+        \coordinate (v6) at (-2,1);
+        \coordinate (v7) at (-4, -1);
+        \coordinate (v8) at (-2.5, -4);
+        \coordinate (v9) at (-2.5, 2.5);
+        \coordinate (v10) at (-1.1, 3.5);
+        \coordinate (v11) at (1, 3.3);
+        \coordinate (v12) at (2.6,2.8);
+        \coordinate (pert) at ($(v1) + (0.3, 0)$);
+          % grain 1
+          \draw[line width=0.3mm, black] (v1) -- (v2);
+          \draw[line width=0.3mm, black] (v2) -- (v3);
+          \draw[line width=0.3mm, black] (v3) -- (v4);
+          \draw[line width=0.3mm, black] (v4) -- (v5);
+          \draw[line width=0.3mm, black] (v5) -- (v1);
+          % grain 2
+          \draw[line width=0.3mm, black] (v4) -- (v5);
+          \draw[line width=0.3mm, black] (v1) -- (v6);
+          \draw[line width=0.3mm, black] (v6) -- (v7);
+          \draw[line width=0.3mm, black] (v7) -- (v8);
+          \draw[line width=0.3mm, black] (v8) -- (v5);
+          % grain 3
+          \draw[line width=0.3mm, black] (v6) -- (v9);
+          \draw[line width=0.3mm, black] (v9) -- (v10);
+          \draw[line width=0.3mm, black] (v10) -- (v11);
+          \draw[line width=0.3mm, black] (v11) -- (v12);
+          \draw[line width=0.3mm, black] (v12) -- (v2);
+          % Perturbed data
+          \draw[line width=0.3mm, red] (pert) -- (v2);
+          \draw[line width=0.3mm, red] (pert) -- (v6);
+          \draw[line width=0.3mm, red] (pert) -- (v5);
+          % vertices
+          \filldraw [black] (v1) circle (1.2pt);
+          \filldraw [black] (v2) circle (1.2pt);
+          \filldraw [black] (v6) circle (1.2pt);
+          \filldraw [black] (v5) circle (1.2pt);
+          \filldraw [red] (pert) circle (1.2pt);
 
-% \begin{frame}[noframenumbering]{Numerical Algorithm}
-% %
-% \begin{figure}[t]
-%     \centering
-%     \begin{tikzpicture}
-%         \coordinate (v1) at (0,0);
-%         \coordinate (v2) at (3, 0.6);
-%         \coordinate (v3) at (3.6, -0.5);
-%         \coordinate (v4) at (2.5, -3);
-%         \coordinate (v5) at (0.1, -2.5);
-%         \coordinate (v6) at (-2,1);
-%         \coordinate (v7) at (-4, -1);
-%         \coordinate (v8) at (-2.5, -4);
-%         \coordinate (v9) at (-2.5, 2.5);
-%         \coordinate (v10) at (-1.1, 3.5);
-%         \coordinate (v11) at (1, 3);
-%         \coordinate (v12) at (3,2);
-%         \coordinate (pert) at ($(v1) + (0.3, 0)$);
-%         % grain 1
-%         \draw[line width=0.3mm, black] (v1) -- (v2);
-%         \draw[line width=0.3mm, black] (v2) -- (v3);
-%         \draw[line width=0.3mm, black] (v3) -- (v4);
-%         \draw[line width=0.3mm, black] (v4) -- (v5);
-%         \draw[line width=0.3mm, black] (v5) -- (v1);
-%         % grain 2
-%         \draw[line width=0.3mm, black] (v4) -- (v5);
-%         \draw[line width=0.3mm, black] (v1) -- (v6);
-%         \draw[line width=0.3mm, black] (v6) -- (v7);
-%         \draw[line width=0.3mm, black] (v7) -- (v8);
-%         \draw[line width=0.3mm, black] (v8) -- (v5);
-%         % grain 3
-%         \draw[line width=0.3mm, black] (v6) -- (v9);
-%         \draw[line width=0.3mm, black] (v9) -- (v10);
-%         \draw[line width=0.3mm, black] (v10) -- (v11);
-%         \draw[line width=0.3mm, black] (v11) -- (v12);
-%         \draw[line width=0.3mm, black] (v12) -- (v2);
-%         % Perturbed data
-%         \draw[line width=0.3mm, red] (pert) -- (v2);
-%         \draw[line width=0.3mm, red] (pert) -- (v6);
-%         \draw[line width=0.3mm, red] (pert) -- (v5);
-%         % vertices
-%         \filldraw [black] (v1) circle (1.2pt);
-%         \filldraw [black] (v2) circle (1.2pt);
-%         \filldraw [black] (v6) circle (1.2pt);
-%         \filldraw [black] (v5) circle (1.2pt);
-%         \filldraw [red] (pert) circle (1.2pt);
-        
-%         % Fill perturbed area
-%         \fill[opacity=0.5, red] (pert) -- (v6) -- (v7) -- (v8) -- (v5) -- cycle; 
-        
-%         % Labels
-%         \node[draw=none, color=black] at (-0.3, -0.2) {$\x_i$};
-%         \node[draw=none, color=red] at (1.5, -0.2) {$\x_i + \langle \delta,0 \rangle$};
-%         \node[draw=none, color=black] at (3.5, 0.6) {$\x_{j1}$};
-%         \node[draw=none, color=black] at (-2.5, 1) {$\x_{j2}$};
-%         \node[draw=none, color=black] at (0.1, -3) {$\x_{j3}$};
-%         \node[draw=none, color=black] at (0.2, 2) {$g_2$};
-%         \node[draw=none, color=black] at (-1.7, -1.2) {$g_3$};
-%         \node[draw=none, color=black] at (1.7, -1.2) {$g_1$};
-%     \end{tikzpicture}
-% \end{figure}
-% \end{frame}
+          % Fill perturbed area
+          \fill[opacity=0.5, red] (pert) -- (v6) -- (v7) -- (v8) -- (v5) -- cycle;
+
+          % Labels
+          \node[draw=none, color=black] at (-0.3, -0.2) {$\x_i$};
+          \node[draw=none, color=red] at (1.5, -0.2) {$\x_i + \langle \delta,0 \rangle$};
+          %\node[draw=none, color=black] at (3.5, 0.6) {$\x_{j1}$};
+          \node[draw=none, color=black, right] at (v2) {$\x_{j1}$};
+          \node[draw=none, color=black] at (-2.5, 1) {$\x_{j2}$};
+          \node[draw=none, color=black] at (0.1, -3) {$\x_{j3}$};
+          \node[draw=none, color=black] at (0.2, 2) {$g_2$};
+          \node[draw=none, color=black] at (-1.7, -1.2) {$g_3$};
+          \node[draw=none, color=black] at (1.7, -1.2) {$g_1$};
+     \end{tikzpicture}
+  \end{figure}
+\end{frame}
 
 \begin{frame}{Numerical Algorithm}
 Since we are perturbing only three arc lengths and there grain areas, we do not need to recompute the total energy but only the difference of energies:
 \begin{align*}
-    E(\X+\delta\,  \ei{m}) - E(\X) &=  
-    \sum_{k =1}^K \gamma^{(k)}\Delta{\AL}_{k} + 
+    E(\X+\delta\,  \ei{m}) - E(\X) &=
+    \sum_{k =1}^K \gamma^{(k)}\Delta{\AL}_{k} +
      \sum_{g=1}^N \SE_{g}\Delta{A}_{g}\\
     &= \sum_{j=1}^3 \gamma^{(k_{i,j})} \Delta \AL_{k_{i,j}} + \sum_{j=1}^3 \SE_{g_{i,j}} \Delta A_{g_{i,j}},
 \end{align*}
 Therefore,
 \begin{equation*}
-    \frac{\partial E(\X)}{\partial \X_m} \approx 
+    \frac{\partial E(\X)}{\partial \X_m} \approx
     \frac{E(\X+\delta\,  \ei{m}) - E(\X)}{\delta} = \sum_{j=1}^3 \gamma^{(k_{i,j})}  \frac{\Delta \AL_{k_{i,j}}}{\delta}+ \sum_{j=1}^3 \SE_{g_{i,j}} \frac{\Delta A_{g_{i,j}}}{\delta}.
 \end{equation*}
 \end{frame}
@@ -1250,7 +1267,7 @@ Therefore,
         \includegraphics[trim={1em 2em 1em 3em}, clip=true, scale=0.5]{figures/stored_energy/SE_analysis.pdf}
     \end{figure}
     where $\SE_1, \SE_2$ and $\SE_3$ are the stored energies for each grain.
-    
+
     The triple junction {\color{red}$\x_7$} can freely move along x-axis.
 \end{frame}
 
@@ -1282,7 +1299,7 @@ Therefore,
 %         \centering
 %         \includegraphics[trim={1em 1em 1em 1em}, clip=true,scale=0.4]{figures/stored_energy/SE_experiments.pdf}
 %     \end{figure}
-%     This estimation can be used as an upper bound for numerical simulations of this model, ensuring that no grains will suffer from instabilities. 
+%     This estimation can be used as an upper bound for numerical simulations of this model, ensuring that no grains will suffer from instabilities.
 %     The interpretation is that the parameter $b$ of this study can be compared to boundaries arc lengths.
 % \end{frame}
 
@@ -1292,7 +1309,7 @@ The analysis of the steady state of {\color{red} $\x_7$} shows that stable confi
 \includegraphics[scale=0.38,valign=t, trim={0 0 0 1em}]{figures/stored_energy/SE_stability.pdf}\hfill
 \includegraphics[trim={1em 1em 1em 1em}, clip=true,scale=0.38,valign=t]{figures/stored_energy/SE_experiments.pdf}
 \end{figure}
-This estimation can be used as an upper bound for numerical simulations of this model, ensuring that no grains will suffer from instabilities. 
+This estimation can be used as an upper bound for numerical simulations of this model, ensuring that no grains will suffer from instabilities.
 The interpretation is that the parameter $b$ of this study can be compared to boundaries arc lengths.
 \end{frame}
 
@@ -1320,34 +1337,34 @@ The interpretation is that the parameter $b$ of this study can be compared to bo
         \draw[line width=0.4mm, black!10!green] (x2) -- (x3);
         \draw[line width=0.4mm, black!10!green] (x3) -- (x4);
         \draw[line width=0.4mm, black!10!green] (x2) -- (x4);
-        
+
         % vertices
         \filldraw [black] (x1) circle (1.5pt);
         \filldraw [black] (x2) circle (1.5pt);
         \filldraw [black] (x3) circle (1.5pt);
         \filldraw [black] (x4) circle (1.5pt);
-        
+
         % Text
         \node[draw=none, color=black, below] at (x1) {$\x_{1}$};
         \node[draw=none, color=black, above] at (x2) {$\x_{2}$};
         \node[draw=none, color=black, below] at (x3) {$\x_{3}$};
         \node[draw=none, color=black, below] at (x4) {$\x_{4}$};
-        
+
         \node[draw=none, color=black, right] at ($(x2)!0.5!(x4)$) {$\AL_{2,4}$};
         \node[draw=none, color=black,left] at ($(x2)!0.5!(x3)$) {$\AL_{2,3}$};
         \node[draw=none, color=black, below] at ($(x3)!0.5!(x4)$) {$\AL_{3,4}$};
-        
+
         \node[draw=none, color=black, right] at ($(x1)!0.35!(x2)$) {$\AL_{1,2}$};
         \node[draw=none, color=black, above] at ($(x1)!0.45!(x3)$) {$\AL_{1,3}$};
         \node[draw=none, color=black, above] at ($(x1)!0.45!(x4)$) {$\AL_{1,4}$};
-        
+
         \node[draw=none, color=black] at ($0.33*(x1)+0.33*(x4)+0.33*(x2)$) {$\color{red}{A_{1}}$};
         \node[draw=none, color=black] at ($0.33*(x1)+0.33*(x2)+0.33*(x3)$) {$\color{red}{A_{2}}$};
         \node[draw=none, color=black] at ($0.33*(x1)+0.33*(x3)+0.33*(x4)$) {$\color{red}{A_{3}}$};
         \end{tikzpicture}
     \end{minipage}
     \end{figure}
-    
+
     Consider the energy prior to nucleation $E_0^{\triangle}$ and the candidate energy $E_1^{\triangle}$. We need $\Delta E^{\triangle} = E_1^{\triangle} - E_0^{\triangle} < 0$ to ensure growth.
 \end{frame}
 
@@ -1392,11 +1409,11 @@ We will look at the slope of the plot, that is $\Delta(\Delta E^{\triangle}):= \
 % If we choose $r > r_c/2$ we ensure growth. if we choose $r > r_c$ we also ensure decreasing energy. We will look at the slope of the plot, that is $\Delta(\Delta E^{\triangle}):= \Delta^2E^{\triangle}$
 % \end{frame}
 
-\begin{frame}{The Nucleation Process - Symmetric Case} 
+\begin{frame}{The Nucleation Process - Symmetric Case}
 We estimate $\Delta^2E^{\triangle} = \Delta E^{\triangle}_1 - \Delta E^{\triangle}_0$ by performing virtual nucleations.
 \begin{figure}[t]
     \centering
-    \subfloat[$\Delta E^{\triangle}_1$] {    
+    \subfloat[$\Delta E^{\triangle}_1$] {
     \begin{tikzpicture}[scale=0.8]
         % coordinates
         \coordinate (x1) at (0,-0.5);
@@ -1410,43 +1427,43 @@ We estimate $\Delta^2E^{\triangle} = \Delta E^{\triangle}_1 - \Delta E^{\triangl
         \draw[line width=0.4mm, black!10!green] (x2) -- (x3);
         \draw[line width=0.4mm, black!10!green] (x3) -- (x4);
         \draw[line width=0.4mm, black!10!green] (x2) -- (x4);
-        
+
         % vertices
         \filldraw [black] (x1) circle (1.5pt);
         \filldraw [black] (x2) circle (1.5pt);
         \filldraw [black] (x3) circle (1.5pt);
         \filldraw [black] (x4) circle (1.5pt);
-        
+
         % Text
         \node[draw=none, color=black, below] at (x1) {$\x_{1}$};
         \node[draw=none, color=black, above] at (x2) {$\x_{2}$};
         \node[draw=none, color=black, below] at (x3) {$\x_{3}$};
         \node[draw=none, color=black, below] at (x4) {$\x_{4}$};
-        
+
     \end{tikzpicture}
     \label{fig:delta2_1}
     }\hspace{5em}
-    \subfloat[$\Delta E^{\triangle}_0$] {    
+    \subfloat[$\Delta E^{\triangle}_0$] {
     \begin{tikzpicture}[scale=0.8]
         % coordinates
         \coordinate (x1) at (0,-0.5);
         \coordinate (x2) at (0,2.1);
         \coordinate (x3) at (-2,-2.3);
         \coordinate (x4) at (2, -2.3);
-        
+
         % vertices
         \filldraw [black] (x1) circle (1.5pt);
         \filldraw [black] (x2) circle (1.5pt);
         \filldraw [black] (x3) circle (1.5pt);
         \filldraw [black] (x4) circle (1.5pt);
-        
+
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % coordinates
         \coordinate (x12) at (x1);
         \coordinate (x22) at ($(x2)!0.3!(x1)$);
         \coordinate (x32) at ($(x3)!0.3!(x1)$);
         \coordinate (x42) at ($(x4)!0.3!(x1)$);
-        
+
         % boundaries
         \draw[line width=0.4mm, red] (x22) -- (x2);
         \draw[line width=0.4mm, red, dashed] (x1) -- (x22);
@@ -1458,24 +1475,24 @@ We estimate $\Delta^2E^{\triangle} = \Delta E^{\triangle}_1 - \Delta E^{\triangl
         \draw[line width=0.4mm, black!10!green, dashed] (x22) -- (x32);
         \draw[line width=0.4mm, black!10!green, dashed] (x32) -- (x42);
         \draw[line width=0.4mm, black!10!green, dashed] (x22) -- (x42);
-        
+
         % vertices
         \filldraw [black] (x12) circle (1.5pt);
         \filldraw [black] (x22) circle (1.5pt);
         \filldraw [black] (x32) circle (1.5pt);
         \filldraw [black] (x42) circle (1.5pt);
-        
+
         % Text
         \node[draw=none, color=black, below] at (x1) {$\x_{1}$};
         \node[draw=none, color=black, above] at (x2) {$\x_{2}$};
         \node[draw=none, color=black, below] at (x3) {$\x_{3}$};
         \node[draw=none, color=black, below] at (x4) {$\x_{4}$};
-        
+
         % Text
         \node[draw=none, color=black, right] at (x22) {$\widetilde{\x}_{2}$};
         \node[draw=none, color=black, below] at (x32) {$\widetilde{\x}_{3}$};
         \node[draw=none, color=black, below] at (x42) {$\widetilde{\x}_{4}$};
-        
+
     \end{tikzpicture}
     \label{fig:delta2_2}
     }
@@ -1511,7 +1528,7 @@ We compared the energy behavior by nucleating grains with the two described orie
 \end{minipage}
 \end{frame}
 
-\begin{frame}{Statistics - Nucleation $\alpha = 0$}
+\begin{frame}{Statistics - Nucleation $\alpha = 0$ - Relative areas}
 \small
 \centering
     \vspace{-0.5em}
@@ -1529,7 +1546,7 @@ We compared the energy behavior by nucleating grains with the two described orie
     First nucleations
 \end{frame}
 
-\begin{frame}{Statistics - Nucleation $\alpha = 0$}
+\begin{frame}{Statistics - Nucleation $\alpha = 0$ - Relative areas}
 \small
 \centering
     \vspace{-0.5em}
@@ -1925,10 +1942,10 @@ We were able to recover flippings, grain removals and surface removals.
 
 \section{Conclusions}
 \begin{frame}{Conclusions}
-    
+
 \end{frame}
 
-% All of the following is optional and typically not needed. 
+% All of the following is optional and typically not needed.
 \appendix
 \begin{frame}[allowframebreaks]
     \frametitle{References}
@@ -2018,39 +2035,39 @@ where $\phi(s)$ can be the $\sinc(s)$ periodic function. Therefore its velocity 
      \begin{figure}
         \centering
         \includegraphics[trim={0 0 0 0}, clip=true, scale=0.43]{figures/closed_boundary/circularboundary_energy.pdf}
-    \end{figure}  
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Non-regular Boundary Motion}
      \begin{figure}
         \centering
         \includegraphics[trim={0 0 0 6em}, clip=true, scale=0.43]{figures/closed_boundary/nonregularboundary.pdf}
-    \end{figure}  
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Non-regular Boundary Area}
      \begin{figure}
         \centering
         \includegraphics[trim={0 0 0 0}, clip=true, scale=0.43]{figures/closed_boundary/nonregularboundary_area.pdf}
-    \end{figure}  
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Non-regular Boundary Energy}
      \begin{figure}
         \centering
         \includegraphics[trim={0 0 0 0}, clip=true, scale=0.43]{figures/closed_boundary/nonregularboundary_energy.pdf}
-    \end{figure}  
+    \end{figure}
 \end{frame}
 
 \section{The Parallel Polling System}
 
 \begin{frame}{Sequential Management of Topological Transitions}
-    
+
 \end{frame}
 
 
 \begin{frame}{Parallel Management of Topological Transitions}
-    
+
 \end{frame}
 
 \section[3D Implicit-transition Model]{More on the Implicit-transition Model for 3D Grain Growth}
