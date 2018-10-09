@@ -17,10 +17,13 @@
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amsfonts,graphicx}
 \usepackage{array}
-\usepackage{media9}
+\usepackage{multimedia}
 \usepackage{subfig}
 \usepackage{xcolor}
+\usepackage{rotating}
 \usepackage[export]{adjustbox}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
 %\usepackage{enumitem}
 %\newlist{balditemize}{itemize}{1}
 %\setlist[balditemize]{label={$\bullet\;$}, wide=\parindent, labelsep*=0pt, leftmargin=*, topsep=0pt, itemsep=0pt}
@@ -41,6 +44,10 @@
 \newcommand{\bndsteady}{\begin{tikzpicture}        \draw[line width=0.4mm, black!50, dashed] (0,0) -- (0.5,0);\end{tikzpicture}}
 
 
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+
+
 \input{macros.tex}
 % There are many different themes available for Beamer. A comprehensive
 % list with examples is given here:
@@ -52,6 +59,7 @@
 \definecolor{myblue}{RGB}{36,52,117}
 \definecolor{bb}{RGB}{0,55,184}
 \definecolor{mygreen}{RGB}{112,173,14}
+\definecolor{bluegrain}{RGB}{74,151,201}
 \makeatletter
 %\setbeamercolor{alerted text}{fg=orange}
 \setbeamercolor{background canvas}{bg=white}
@@ -1026,19 +1034,19 @@ The \textbf{Predictor-Detector Algorithm} is used to overcome the growth.
 \subsection{Numerical Experiments}
 
 \begin{frame}{Numerical Experiments}
-    \begin{minipage}{0.5\textwidth}
-
-    \end{minipage}
+   \centering
+   \movie[width=\textwidth,height=\textheight]{Simulation}{/home/asazo/Escritorio/coupled.mov}
 \end{frame}
-
 
 \begin{frame}{Numerical Experiments}
 \begin{figure}
-    \includegraphics[trim={0 0 44em 0},clip=true,scale=0.4]{figures/coupled_model/new_data/areas.pdf}
+    %\includegraphics[trim={0 0 44em 0},clip=true,scale=0.4]{figures/coupled_model/new_data/areas.pdf}
+    \includegraphics[trim={0 0 44em 0},clip=true,scale=0.4]{figures/coupled_model/alt/areas.pdf}
 \end{figure}
 \vspace{-1.5em}
 \begin{figure}
-    \includegraphics[trim={43em 0 0 0},clip=true,scale=0.4]{figures/coupled_model/new_data/areas.pdf}
+    %\includegraphics[trim={43em 0 0 0},clip=true,scale=0.4]{figures/coupled_model/new_data/areas.pdf}
+    \includegraphics[trim={43em 0 0 0},clip=true,scale=0.4]{figures/coupled_model/alt/areas.pdf}
 \end{figure}
 \end{frame}
 
@@ -1046,22 +1054,26 @@ The \textbf{Predictor-Detector Algorithm} is used to overcome the growth.
 \vspace{-0.5em}
 \begin{minipage}{0.5\textwidth}
 \begin{figure}
-    \includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/new_data/ang.pdf}
+    %\includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/new_data/ang.pdf}
+    \includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/alt/ang.pdf}
 \end{figure}
 \end{minipage}%
 \begin{minipage}{0.5\textwidth}
 \begin{figure}
-    \includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/new_data/nsides.pdf}
+   %\includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/new_data/nsides.pdf}
+   \includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/alt/nsides.pdf}
 \end{figure}
 \end{minipage}\\
 \begin{minipage}{0.5\textwidth}
 \begin{figure}
-    \includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/new_data/avg.pdf}
+%    \includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/new_data/avg.pdf}
+	\includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/alt/avg.pdf}
 \end{figure}
 \end{minipage}%
 \begin{minipage}{0.5\textwidth}
 \begin{figure}
-    \includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/new_data/dAdt.pdf}
+    %\includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/new_data/dAdt.pdf}
+    \includegraphics[trim={0 1em 0 3em},clip=true,scale=0.35]{figures/coupled_model/alt/dAdt.pdf}
 \end{figure}
 \end{minipage}
 \end{frame}
@@ -1094,11 +1106,72 @@ We discuss the numerical algorithm for triple junction evolution, the stored ene
 
 \subsection{Numerical Algorithm}
 \begin{frame}{Numerical Algorithm}
+\begin{minipage}{0.6\textwidth}
 Consider the total energy of the system
 \begin{equation*}
     E = \sum_{k=1}^K \gamma^{(k)}\AL_k + \sum_{g = 1}^N \SE_g A_g,
 \end{equation*}
-where $\gamma$ is the grain boundary energy function, $\AL$ is the boundary arc length, $\SE$ is the stored energy term and $A$ is the grain area. We evolve the system by a gradient descent method. The velocity of triple junctions $\{\x_i\}$ is computed as:
+\end{minipage}%
+\begin{minipage}{0.4\textwidth}
+\begin{figure}[t]
+    \centering
+    \begin{tikzpicture}[scale=0.5]
+        \coordinate (v1) at (0,0);
+        \coordinate (v2) at (2.7, 1.5);
+        \coordinate (v3) at (3.6, -0.5);
+        \coordinate (v4) at (2.5, -3);
+        \coordinate (v5) at (0.1, -2.5);
+        \coordinate (v6) at (-2,1);
+        \coordinate (v7) at (-4, -1);
+        \coordinate (v8) at (-2.5, -4);
+        \coordinate (v9) at (-2.5, 2.5);
+        \coordinate (v10) at (-1.1, 3.5);
+        \coordinate (v11) at (1, 3.3);
+        \coordinate (v12) at (2.6,2.8);
+        
+        % Fill perturbed area
+        \fill[opacity=0.5, BurntOrange] (v1) -- (v6) -- (v7) -- (v8) -- (v5) -- cycle;
+        \fill[opacity=0.3, BurntOrange] (v1) -- (v2) -- (v3) -- (v4) -- (v5) -- cycle;
+          \fill[opacity=0.1, BurntOrange] (v6) -- (v9) -- (v10) -- (v11) -- (v12) -- (v2) -- (v1) -- cycle;
+        
+        % grain 1
+        \draw[line width=0.3mm, black] (v1) -- (v2);
+        \draw[line width=0.3mm, black] (v2) -- (v3);
+        \draw[line width=0.3mm, black] (v3) -- (v4);
+        \draw[line width=0.3mm, black] (v4) -- (v5);
+        \draw[line width=0.3mm, black] (v5) -- (v1);
+        % grain 2
+        \draw[line width=0.3mm, black] (v4) -- (v5);
+        \draw[line width=0.3mm, black] (v1) -- (v6);
+        \draw[line width=0.3mm, black] (v6) -- (v7);
+        \draw[line width=0.3mm, black] (v7) -- (v8);
+        \draw[line width=0.3mm, black] (v8) -- (v5);
+        % grain 3
+        \draw[line width=0.3mm, black] (v6) -- (v9);
+        \draw[line width=0.3mm, black] (v9) -- (v10);
+        \draw[line width=0.3mm, black] (v10) -- (v11);
+        \draw[line width=0.3mm, black] (v11) -- (v12);
+        \draw[line width=0.3mm, black] (v12) -- (v2);
+
+        \filldraw [black] (v1) circle (4pt);
+
+        % Labels
+        %\node[draw=none, color=black] at (-0.3, -0.2) {$\x_i$};
+        %\node[draw=none, color=black, right] at (v2) {$\x_{j1}$};
+        %\node[draw=none, color=black] at (-2.5, 1) {$\x_{j2}$};
+        %\node[draw=none, color=black] at (0.1, -3) {$\x_{j3}$};
+        \node[draw=none, color=black] at (0.2, 2) {$\scriptstyle \SE_2, A_2$};
+        \node[draw=none, color=black] at (-1.7, -1.2) {$\scriptstyle \SE_3, A_3$};
+        \node[draw=none, color=black] at (1.9, -0.7) {$\scriptstyle \SE_1, A_1$};
+        
+        \node[draw=none, color=Black] at (0.9,1) {$\scriptstyle \AL_1$};
+        \node[draw=none, color=Black] at (-1,0.1) {$\scriptstyle \AL_2$};
+        \node[draw=none, color=Black] at (0.5,-1.2) {$\scriptstyle \AL_3$};
+    \end{tikzpicture}
+\end{figure}
+\end{minipage}
+
+where $\gamma$ is the grain boundary energy, $\AL$ is the boundary arc length, $\SE$ is the stored energy term and $A$ is the grain area. We evolve the system by a gradient descent method. The velocity of triple junctions $\{\x_i\}$ is computed as:
 \begin{equation*}
     \dotx_i = \left\langle -\frac{\partial E}{\partial x_i}, -\frac{\partial E}{\partial y_i} \right\rangle.
 \end{equation*}
@@ -1309,8 +1382,8 @@ The analysis of the steady state of {\color{red} $\x_7$} shows that stable confi
 \includegraphics[scale=0.38,valign=t, trim={0 0 0 1em}]{figures/stored_energy/SE_stability.pdf}\hfill
 \includegraphics[trim={1em 1em 1em 1em}, clip=true,scale=0.38,valign=t]{figures/stored_energy/SE_experiments.pdf}
 \end{figure}
-This estimation can be used as an upper bound for numerical simulations of this model, ensuring that no grains will suffer from instabilities.
-The interpretation is that the parameter $b$ of this study can be compared to boundaries arc lengths.
+%This estimation can be used as an upper bound for numerical simulations of this model, ensuring that no grains will suffer from instabilities.
+%The interpretation is that the parameter $b$ of this study can be compared to boundaries arc lengths.
 \end{frame}
 
 \subsection{The Nucleation Process}
@@ -1318,11 +1391,62 @@ The interpretation is that the parameter $b$ of this study can be compared to bo
     This topological transition adds a new grain at a specific vertex. Consider the vertex $\x_1$ and its neighbors $\{\x_2, \x_3, \x_4\}$. We will add a grain at this \emph{candidate site} and analyze whether if it will grow or shrink.
     \begin{figure}[t]
     \centering
-    \begin{minipage}{0.5\textwidth}
+    \begin{minipage}{0.3\textwidth}
         \centering
         \includegraphics[trim={8cm 8cm 8cm 8cm},clip=true,scale=0.8]{figures/stored_energy/SE/snaps/000070.pdf}
     \end{minipage}%
-    \begin{minipage}{0.5\textwidth}
+    \begin{minipage}{0.25\textwidth}
+        \centering
+        \begin{turn}{60}
+        \begin{tikzpicture}[scale=0.4]
+            \coordinate (v1) at (0,0);
+            \coordinate (v2) at (2.7, 1.5);
+            \coordinate (v3) at (3.6, -0.5);
+            \coordinate (v4) at (2.5, -3);
+            \coordinate (v5) at (0.1, -2.5);
+            \coordinate (v6) at (-2,1);
+            \coordinate (v7) at (-4, -1);
+            \coordinate (v8) at (-2.5, -4);
+            \coordinate (v9) at (-2.5, 2.5);
+            \coordinate (v10) at (-1.1, 3.5);
+            \coordinate (v11) at (1, 3.3);
+            \coordinate (v12) at (2.6,2.8);
+            
+            \coordinate (a1) at ($0.5*(v1)+0.5*(v2)$);
+            \coordinate (a2) at ($0.5*(v1)+0.5*(v6)$);
+            \coordinate (a3) at ($0.5*(v1)+0.5*(v5)$);
+            
+            % Fill perturbed area
+            \fill[bluegrain] (v1) -- (v6) -- (v7) -- (v8) -- (v5) -- cycle;
+            \fill[bluegrain] (v1) -- (v2) -- (v3) -- (v4) -- (v5) -- cycle;
+            \fill[bluegrain] (v6) -- (v9) -- (v10) -- (v11) -- (v12) -- (v2) -- (v1) -- cycle;
+            
+             \fill[white] (a1) -- (a2) -- (a3) -- cycle;
+            
+            % grain 1
+            \draw[line width=0.3mm, black] (v1) -- (v2);
+            \draw[line width=0.3mm, black] (v2) -- (v3);
+            \draw[line width=0.3mm, black] (v3) -- (v4);
+            \draw[line width=0.3mm, black] (v4) -- (v5);
+            \draw[line width=0.3mm, black] (v5) -- (v1);
+            % grain 2
+            \draw[line width=0.3mm, black] (v4) -- (v5);
+            \draw[line width=0.3mm, black] (v1) -- (v6);
+            \draw[line width=0.3mm, black] (v6) -- (v7);
+            \draw[line width=0.3mm, black] (v7) -- (v8);
+            \draw[line width=0.3mm, black] (v8) -- (v5);
+            % grain 3
+            \draw[line width=0.3mm, black] (v6) -- (v9);
+            \draw[line width=0.3mm, black] (v9) -- (v10);
+            \draw[line width=0.3mm, black] (v10) -- (v11);
+            \draw[line width=0.3mm, black] (v11) -- (v12);
+            \draw[line width=0.3mm, black] (v12) -- (v2);
+    
+            \filldraw [black] (v1) circle (3pt);
+        \end{tikzpicture}
+        \end{turn}
+    \end{minipage}\hspace{3em}%
+    \begin{minipage}{0.3\textwidth}
         \centering
         \begin{tikzpicture}[scale=0.84]
         % coordinates
@@ -1504,11 +1628,16 @@ We call $\Delta^2 E^{\triangle}$ the \emph{nucleation factor}. We compute it for
     In practice we need to choose an orientation for the nucleated grain.
     \begin{itemize}
         \item The {\color{red}basic nucleation} considers orientation $\alpha = 0$.
-        \item The {\color{blue}alternative nucleation} considers a local optimization choosing an orientation as $\alpha = \min_{\alpha \in [0,2\pi)} E_1^\triangle$, that is, we minimize the energy introduced by nucleation.
+        \item The {\color{blue}alternative nucleation} considers a local optimization choosing an orientation as $\alpha = \min_{\widehat{\alpha} \in [0,2\pi)} E_1^\triangle$, that is, we minimize the energy introduced by nucleation.
     \end{itemize}
 \end{frame}
 
 \subsection{Numerical Experiments}
+
+\begin{frame}{Numerical Experiments}
+      \centering
+   \movie[width=\textwidth,height=\textheight]{Simulation}{/home/asazo/Escritorio/se.mov}
+\end{frame}
 
 \begin{frame}{Energy Behavior}
 We compared the energy behavior by nucleating grains with the two described orientation choices.
@@ -1528,7 +1657,7 @@ We compared the energy behavior by nucleating grains with the two described orie
 \end{minipage}
 \end{frame}
 
-\begin{frame}{Statistics - Nucleation $\alpha = 0$ - Relative areas}
+\begin{frame}{Statistics - Nucleation $\alpha = 0$ - Relative area}
 \small
 \centering
     \vspace{-0.5em}
@@ -1546,7 +1675,7 @@ We compared the energy behavior by nucleating grains with the two described orie
     First nucleations
 \end{frame}
 
-\begin{frame}{Statistics - Nucleation $\alpha = 0$ - Relative areas}
+\begin{frame}{Statistics - Nucleation $\alpha = 0$ - Relative area}
 \small
 \centering
     \vspace{-0.5em}
@@ -1564,35 +1693,34 @@ We compared the energy behavior by nucleating grains with the two described orie
     Recrystallization
 \end{frame}
 
-\begin{frame}{Statistics - Nucleation $\alpha = 0$}
-\small
+\begin{frame}{Statistics - Nucleation $\alpha = 0$ - Dihedral angle}
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/dihedral/000000_nuclconstant_set.pdf}\\
+    \scriptsize
     Initial condition
+    \includegraphics[trim={0 2.6em 0 1.1em},clip=true,scale=0.34]{figures/stored_energy/SE/dihedral/000000_nuclconstant_set.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/dihedral/000070_nuclconstant_set.pdf}\\
+    \scriptsize
     First nucleations
-    \end{minipage}
-\end{frame}
-
-\begin{frame}{Statistics - Nucleation $\alpha = 0$}
-\small
+    \includegraphics[trim={0 2.6em 0 1.1em},clip=true,scale=0.34]{figures/stored_energy/SE/dihedral/000070_nuclconstant_set.pdf}
+    \end{minipage}\\
+    \vfill
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/dihedral/000110_nuclconstant_set.pdf}\\
+    \scriptsize
     Nucleation stage
+    \includegraphics[trim={0 2.6em 0 1.1em},clip=true,scale=0.34]{figures/stored_energy/SE/dihedral/000110_nuclconstant_set.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/dihedral/000240_nuclconstant_set.pdf}\\
+    \scriptsize
     Recrystallization
+    \includegraphics[trim={0 2.6em 0 1.1em},clip=true,scale=0.34]{figures/stored_energy/SE/dihedral/000240_nuclconstant_set.pdf}
     \end{minipage}
 \end{frame}
-
-\begin{frame}{Statistics - Nucleation $\alpha = 0$}
+\begin{frame}{Statistics - Nucleation $\alpha = 0$ - GBCD}
 \small
     \begin{minipage}{\textwidth}
     \centering
@@ -1615,7 +1743,7 @@ We compared the energy behavior by nucleating grains with the two described orie
     \end{minipage}
 \end{frame}
 
-\begin{frame}{Statistics - Nucleation $\alpha = 0$}
+\begin{frame}{Statistics - Nucleation $\alpha = 0$ - GBCD}
 \small
     \begin{minipage}{\textwidth}
     \centering
@@ -1638,66 +1766,64 @@ We compared the energy behavior by nucleating grains with the two described orie
     \end{minipage}
 \end{frame}
 
-\begin{frame}{Statistics - Nucleation $\alpha = 0$}
+\begin{frame}{Statistics - Nucleation $\alpha = 0$ - Number of sides}
 \small
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/nsides/000000_nuclconstant_set.pdf}\\
+    \scriptsize
     Initial condition
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.335]{figures/stored_energy/SE/nsides/000000_nuclconstant_set.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/nsides/000070_nuclconstant_set.pdf}\\
+    \scriptsize
     First nucleations
-    \end{minipage}
-\end{frame}
-
-\begin{frame}{Statistics - Nucleation $\alpha = 0$}
-\small
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.335]{figures/stored_energy/SE/nsides/000070_nuclconstant_set.pdf}\\
+    \end{minipage}\\
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/nsides/000110_nuclconstant_set.pdf}\\
+    \scriptsize
     Nucleation Stage
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.335]{figures/stored_energy/SE/nsides/000110_nuclconstant_set.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/nsides/000240_nuclconstant_set.pdf}\\
+    \scriptsize
     Recrystallization
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.335]{figures/stored_energy/SE/nsides/000240_nuclconstant_set.pdf}
     \end{minipage}
 \end{frame}
-
-
-\begin{frame}{Statistics - Nucleation $\alpha = 0$}
+\begin{frame}{Statistics - Nucleation $\alpha = 0$  - Stored Energy distribution}
 \small
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/se/000000_nuclconstant_set.pdf}\\
-    Nucleation Stage
+    \scriptsize
+    Initial condition
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.35]{figures/stored_energy/SE/se/000000_nuclconstant_set.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/se/000070_nuclconstant_set.pdf}\\
-    Recrystallization
-    \end{minipage}
-\end{frame}
-
-\begin{frame}{Statistics - Nucleation $\alpha = 0$}
-\small
+    \scriptsize
+    First nucleations
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.35]{figures/stored_energy/SE/se/000070_nuclconstant_set.pdf}
+    \end{minipage}\\
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.4]{figures/stored_energy/SE/se/000110_nuclconstant_set.pdf}\\
+    \scriptsize
     Nucleation Stage
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.35]{figures/stored_energy/SE/se/000110_nuclconstant_set.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.4]{figures/stored_energy/SE/se/000240_nuclconstant_set.pdf}\\
+    \scriptsize
     Recrystallization
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.35]{figures/stored_energy/SE/se/000240_nuclconstant_set.pdf}
     \end{minipage}
 \end{frame}
 
 %%%%%% Alpha alternative
 
-\begin{frame}{Statistics - Nucleation $\alpha$ alternative}
+\begin{frame}{Statistics - Nucleation $\alpha$ alternative - Relative area}
 \small
 \centering
     \vspace{-0.5em}
@@ -1715,7 +1841,7 @@ We compared the energy behavior by nucleating grains with the two described orie
     First nucleations
 \end{frame}
 
-\begin{frame}{Statistics - Nucleation $\alpha$ alternative}
+\begin{frame}{Statistics - Nucleation $\alpha$ alternative - Relative area}
 \small
 \centering
     \vspace{-0.5em}
@@ -1733,35 +1859,35 @@ We compared the energy behavior by nucleating grains with the two described orie
     Recrystallization
 \end{frame}
 
-\begin{frame}{Statistics - Nucleation $\alpha$ alternative}
-\small
+\begin{frame}{Statistics - Nucleation $\alpha$ alternative - Dihedral angle}
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/dihedral/000000_nuclalternative_set.pdf}\\
+    \scriptsize
     Initial condition
+    \includegraphics[trim={0 2.6em 0 1.1em},clip=true,scale=0.34]{figures/stored_energy/SE/dihedral/000000_nuclalternative_set.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/dihedral/000070_nuclalternative_set.pdf}\\
+    \scriptsize
     First nucleations
-    \end{minipage}
-\end{frame}
-
-\begin{frame}{Statistics - Nucleation $\alpha$ alternative}
-\small
+    \includegraphics[trim={0 2.6em 0 1.1em},clip=true,scale=0.34]{figures/stored_energy/SE/dihedral/000070_nuclalternative_set.pdf}
+    \end{minipage}\\
+    \vfill
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/dihedral/000110_nuclalternative_set.pdf}\\
+    \scriptsize
     Nucleation stage
+    \includegraphics[trim={0 2.6em 0 1.1em},clip=true,scale=0.34]{figures/stored_energy/SE/dihedral/000110_nuclalternative_set.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/dihedral/000240_nuclalternative_set.pdf}\\
+    \scriptsize
     Recrystallization
+    \includegraphics[trim={0 2.6em 0 1.1em},clip=true,scale=0.34]{figures/stored_energy/SE/dihedral/000240_nuclalternative_set.pdf}
     \end{minipage}
 \end{frame}
 
-\begin{frame}{Statistics - Nucleation $\alpha$ alternative}
+\begin{frame}{Statistics - Nucleation $\alpha$ alternative - GBCD}
 \small
     \begin{minipage}{\textwidth}
     \centering
@@ -1784,7 +1910,7 @@ We compared the energy behavior by nucleating grains with the two described orie
     \end{minipage}
 \end{frame}
 
-\begin{frame}{Statistics - Nucleation $\alpha$ alternative}
+\begin{frame}{Statistics - Nucleation $\alpha$ alternative - GBCD}
 \small
     \begin{minipage}{\textwidth}
     \centering
@@ -1807,61 +1933,89 @@ We compared the energy behavior by nucleating grains with the two described orie
     \end{minipage}
 \end{frame}
 
-\begin{frame}{Statistics - Nucleation $\alpha$ alternative}
+\begin{frame}{Statistics - Nucleation $\alpha$ alternative - Number of sides}
 \small
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/nsides/000000_nuclalternative_set.pdf}\\
+    \scriptsize
     Initial condition
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.335]{figures/stored_energy/SE/nsides/000000_nuclalternative_set.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/nsides/000070_nuclalternative_set.pdf}\\
+    \scriptsize
     First nucleations
-    \end{minipage}
-\end{frame}
-
-\begin{frame}{Statistics - Nucleation $\alpha$ alternative}
-\small
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.335]{figures/stored_energy/SE/nsides/000070_nuclalternative_set.pdf}\\
+    \end{minipage}\\
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/nsides/000110_nuclalternative_set.pdf}\\
+    \scriptsize
     Nucleation Stage
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.335]{figures/stored_energy/SE/nsides/000110_nuclalternative_set.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/nsides/000240_nuclalternative_set.pdf}\\
+    \scriptsize
     Recrystallization
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.335]{figures/stored_energy/SE/nsides/000240_nuclalternative_set.pdf}
     \end{minipage}
 \end{frame}
 
-\begin{frame}{Statistics - Nucleation $\alpha$ alternative}
+% \begin{frame}{Statistics - Nucleation $\alpha$ alternative}
+% \small
+%     \begin{minipage}{0.5\textwidth}
+%     \centering
+%     \includegraphics[scale=0.35]{figures/stored_energy/SE/nsides/000110_nuclalternative_set.pdf}\\
+%     Nucleation Stage
+%     \end{minipage}%
+%     \begin{minipage}{0.5\textwidth}
+%     \centering
+%     \includegraphics[scale=0.35]{figures/stored_energy/SE/nsides/000240_nuclalternative_set.pdf}\\
+%     Recrystallization
+%     \end{minipage}
+% \end{frame}
+
+\begin{frame}{Statistics - Nucleation $\alpha$ alternative - Stored Energy distribution}
 \small
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/se/000000_nuclalternative_set.pdf}\\
-    Nucleation Stage
+    \scriptsize
+    Initial condition
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.35]{figures/stored_energy/SE/se/000000_nuclalternative_set.pdf}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
     \centering
-    \includegraphics[scale=0.35]{figures/stored_energy/SE/se/000070_nuclalternative_set.pdf}\\
+    \scriptsize
+    First nucleations
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.35]{figures/stored_energy/SE/se/000070_nuclalternative_set.pdf}
+    \end{minipage}\\
+    \begin{minipage}{0.5\textwidth}
+    \centering
+    \scriptsize
+    Nucleation Stage
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.35]{figures/stored_energy/SE/se/000110_nuclalternative_set.pdf}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+    \centering
+    \scriptsize
     Recrystallization
+    \includegraphics[trim={0 1em 0 1.1em},clip=true,scale=0.35]{figures/stored_energy/SE/se/000240_nuclalternative_set.pdf}
     \end{minipage}
 \end{frame}
 
-\begin{frame}{Statistics - Nucleation $\alpha$ alternative}
-\small
-    \begin{minipage}{0.5\textwidth}
-    \centering
-    \includegraphics[scale=0.4]{figures/stored_energy/SE/se/000110_nuclalternative_set.pdf}\\
-    Nucleation Stage
-    \end{minipage}%
-    \begin{minipage}{0.5\textwidth}
-    \centering
-    \includegraphics[scale=0.4]{figures/stored_energy/SE/se/000240_nuclalternative_set.pdf}\\
-    Recrystallization
-    \end{minipage}
-\end{frame}
+% \begin{frame}{Statistics - Nucleation $\alpha$ alternative}
+% \small
+%     \begin{minipage}{0.5\textwidth}
+%     \centering
+%     \includegraphics[scale=0.4]{figures/stored_energy/SE/se/000110_nuclalternative_set.pdf}\\
+%     Nucleation Stage
+%     \end{minipage}%
+%     \begin{minipage}{0.5\textwidth}
+%     \centering
+%     \includegraphics[scale=0.4]{figures/stored_energy/SE/se/000240_nuclalternative_set.pdf}\\
+%     Recrystallization
+%     \end{minipage}
+% \end{frame}
 
 
 \section[3D Implicit-transition Model]{The Implicit-transition Model for 3D Grain Growth}
@@ -1920,6 +2074,17 @@ This model was published and presented at the 36th International Conference of t
 \end{frame}
 
 \subsection{Numerical Experiments}
+
+\begin{frame}
+   \centering
+   \movie[width=\textwidth,height=\textheight]{3D grain}{/home/asazo/Escritorio/3d_single_grain.mp4}
+\end{frame}
+
+\begin{frame}
+   \centering
+   \movie[width=\textwidth,height=\textheight]{Simulation idea}{/home/asazo/Escritorio/normals.mov}
+\end{frame}
+
 \begin{frame}{Energy Minimization}
     This model decreases the total energy of the system \emph{asymptotically} but not \emph{monotonically}.
     \begin{figure}
@@ -1942,7 +2107,38 @@ We were able to recover flippings, grain removals and surface removals.
 
 \section{Conclusions}
 \begin{frame}{Conclusions}
+\begin{itemize}
+    \item We studied 2D and 3D models of grain growth and nucleation via mathematical modeling and analysis, numerical computations and statistics.
+    \item Improvement of the Coupled Model to capture \textbf{curvature-based motion} and correction of interior points along the boundaries via an orthogonal \textbf{tangential component}. Also we improved flipping detection via \textbf{Multi-Step methods}, \textbf{improved interval for $t_{\text{ext}}$} and the \textbf{Predictor-Corrector Algorithm}.
+    \item Variation of $\mu$ and $\lambda$ mobilities allow us to recover statistics from dihedral angle at $2\pi/3$, number of sides distribution as in vertex model and curvature model and the Von Neumann-Mullins $(n-6)$ rule.
+\end{itemize}
+\end{frame}
 
+\begin{frame}{Conclusions}
+    \begin{itemize}
+        \item An extended Continuous Vertex Model with Nucleation was developed.
+        \item We analyzed the effect of Stored Energy $\SE$ over triple junctions evolution. We found that \textbf{there is a limit on $\SE$ values} where grains can grow stable.
+        \item Study of \textbf{how to nucleate} at triple junctions and the \textbf{size of nucleation} $r_c$ required to grow. This leads to a temporal increase in the total energy but we still minimize it.
+        \item We found an interesting behavior of the total energy of the system when choosing different orientation criteria.
+        \item Stages of grain growth and nucleation can be identified clearly. We recover the GBCD in the case of $\alpha$ alternative.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusions}
+    \begin{itemize}
+        \item We developed the \textbf{parallel polling system} for handling topological transitions in parallel to support the native implementation of the Coupled Model and the Stored Energy Vertex Model in GPU.
+        \item The \textbf{Implicit-transition Model} based on 2D Vertex Model was presented. This model handles implicitly topological transitions by generating the grain network at each iteration via Voronoi tessellation. We effectively decrease the energy asymptotically but not monotonically.
+        \item We analyzed a 3D model and we obtained via image analysis techniques 2D slices and then we were able to extract the relative area distribution.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Future Work}
+    
+\end{frame}
+
+\begin{frame}
+     \centering
+   \movie[width=\textwidth,height=\textheight]{Simulation}{/home/asazo/Escritorio/All_4.mp4}
 \end{frame}
 
 % All of the following is optional and typically not needed.
@@ -2061,13 +2257,211 @@ where $\phi(s)$ can be the $\sinc(s)$ periodic function. Therefore its velocity 
 
 \section{The Parallel Polling System}
 
-\begin{frame}{Sequential Management of Topological Transitions}
-
+\subsection{Sequential Management}
+\begin{frame}{Sequential Management}
+\begin{itemize}
+    \item The Coupled Model and the Stored Energy Vertex Model (SEVM) depends of the structure of vertices and boundaries.
+    \item Flippings can be detected by sorting the boundary set $\boundaries$ by $t_{\text{ext}}$ in decreasing order.
+    \item We can iteratively decide the safe flippings by labeling the vertices related to each boundary until we find that a boundary has a repeated labeled vertex.
+\end{itemize}
 \end{frame}
 
+\begin{frame}
+\begin{algorithmic}[1]
+\Procedure{SEQUENTIAL}{}
+\State $\boundaries \gets$ Clear flip and inhibited state for each boundary
+\State $\boundaries \gets$ Update $t_{\text{ext}}$ for each boundary
+\State $\boundaries_{\text{flip}} \gets$ Boundaries to flip with $t_{\text{ext}} \in [0, \Delta t]$ 
+\State $\boundaries_{\text{flip}} \gets$ Sort boundaries by $t_{\text{ext}}$ in decreasing order
+\State $\boundaries_{\text{tmp}} \gets \varnothing,\quad$ Empty list of boundaries visited
+\State $\vertices_{\text{tmp}} \gets \varnothing,\quad$ Empty list of vertices visited
+\ForEach{$\Gamma \in \boundaries_{\text{flip}}$}
+    \State $\{\x_i, \x_j\} \gets $ Vertices of $\Gamma$
+    \If{$ \vertices_{\text{tmp}} \cap \{\x_i, \x_j\} = \varnothing$}
+        \State $\boundaries_{\text{tmp}} \gets \boundaries_{\text{tmp}} \cup \Gamma$
+        \State $\vertices_{\text{tmp}} \gets \vertices_{\text{tmp}} \cup \{\x_i, \x_j\}$
+    \Else
+        \State \Return $\boundaries_{\text{tmp}}$
+    \EndIf
+\EndFor
+\EndProcedure
+\end{algorithmic}
+\end{frame}
 
-\begin{frame}{Parallel Management of Topological Transitions}
+\begin{frame}{Sequential Management}
+\begin{itemize}
+    \item We need more significant statistics. Hundreds of thousands of grains must be simulated.
+    \item A parallel approach in CPU still can handle topological transitions with the mentioned algorithm, but might not scale with the number of grains.
+    \item Since the implementation of the Coupled Model and SEVM  is done in GPU, it would be helpful to develop a parallel algorithm for solving the transitions.
+\end{itemize}
+\end{frame}
 
+\subsection{Parallel Management}
+\begin{frame}{Parallel Management}
+\begin{itemize}
+    \item The parallel management is based in the idea of treating each basic \emph{unit}  (boundaries, vertices) by separate, performing operations in parallel related to managing their own states,
+    \item We compute $t_\text{ext}$ for each boundary. Each vertex first \emph{votes} for their boundary with lowest $t_\text{ext}$ . Then each boundary \emph{counts} the received votes. Boundaries with two votes can flip and block neighbor boundaries for flipping (\ie they cannot be voted).
+    \item This procedure is iterated until we converge and we cannot vote anymore.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Parallel Management}
+    \begin{figure}[t]
+    \centering
+    \subfloat[] {    
+    \begin{tikzpicture}[scale=0.8]
+    % Boundaries
+    \draw[line width=0.6mm, black] (0,0) -- (1,0);
+    %
+    \draw[line width=0.6mm, black] (0,0) -- (-0.8,0.8);
+    \draw[line width=0.6mm, black] (-0.8,0.8) -- (-0.7, 1.8);
+    \draw[line width=0.6mm, black] (-0.8,0.8) -- (-1.8,0.7);
+    %
+    \draw[line width=0.6mm, black] (0,0) -- (-0.8,-0.8);
+    \draw[line width=0.6mm, black] (-0.8,-0.8) -- (-1.8, -0.1);
+    \draw[line width=0.6mm, black] (-0.8,-0.8) -- (-0.95, -1.8);
+    %
+    \draw[line width=0.6mm, black] (1,0) -- (1.8,0.8);
+    \draw[line width=0.6mm, black] (1.8,0.8) -- (1.6, 1.8);
+    \draw[line width=0.6mm, black] (1.8,0.8) -- (2.8,0.7);
+    %
+    \draw[line width=0.6mm, black] (1,0) -- (1.8,-0.8);
+    \draw[line width=0.6mm, black] (1.8,-0.8) -- (2, -1.8);
+    \draw[line width=0.6mm, black] (1.8,-0.8) -- (2.8,-0.7);
+    % Vertices
+    \filldraw [Magenta] (0,0) circle (2pt);
+    \filldraw [RoyalBlue] (-0.8,0.8) circle (2pt);
+    \filldraw [Orange] (-0.8,-0.8) circle (2pt);
+    \filldraw [Green] (1,0) circle (2pt);
+    \filldraw [Fuchsia] (1.8,0.8) circle (2pt);
+    \filldraw [TealBlue] (1.8,-0.8) circle (2pt);
+    % Votes
+    \node[draw=none, color=Magenta] at (0.5, -0.3) {$\checkmark$};
+    \node[draw=none, color=RoyalBlue] at (-0.5, 1.2) {$\checkmark$};
+    \node[draw=none, color=Orange] at (-0.3, -0.6) {$\checkmark$};
+    \node[draw=none, color=Green] at (0.5, 0.3) {$\checkmark$};
+    \node[draw=none, color=Fuchsia] at (1.3, 0.6) {$\checkmark$};
+    \node[draw=none, color=TealBlue] at (2.3, -0.45) {$\checkmark$};
+    %%
+    \end{tikzpicture}
+    \label{fig:poll1}
+    }\hspace{5em}
+    \subfloat[] {    
+    \begin{tikzpicture}[scale=0.8]
+    % Boundaries
+    \draw[line width=0.6mm, red] (0,0) -- (1,0);
+    %
+    \draw[line width=0.6mm, black] (0,0) -- (-0.8,0.8);
+    \draw[line width=0.6mm, Cyan] (-0.8,0.8) -- (-0.7, 1.8);
+    \draw[line width=0.6mm, black] (-0.8,0.8) -- (-1.8,0.7);
+    %
+    \draw[line width=0.6mm, Cyan] (0,0) -- (-0.8,-0.8);
+    \draw[line width=0.6mm, black] (-0.8,-0.8) -- (-1.8, -0.1);
+    \draw[line width=0.6mm, black] (-0.8,-0.8) -- (-0.95, -1.8);
+    %
+    \draw[line width=0.6mm, Cyan] (1,0) -- (1.8,0.8);
+    \draw[line width=0.6mm, black] (1.8,0.8) -- (1.6, 1.8);
+    \draw[line width=0.6mm, black] (1.8,0.8) -- (2.8,0.7);
+    %
+    \draw[line width=0.6mm, black] (1,0) -- (1.8,-0.8);
+    \draw[line width=0.6mm, black] (1.8,-0.8) -- (2, -1.8);
+    \draw[line width=0.6mm, Cyan] (1.8,-0.8) -- (2.8,-0.7);
+    \end{tikzpicture}
+    \label{fig:poll2}
+    }
+    \\
+    \subfloat[] {    
+    \begin{tikzpicture}[scale=0.8]
+    % Boundaries
+    \draw[line width=0.6mm, red] (0,0) -- (1,0);
+    %
+    \draw[line width=0.6mm, black!20] (0,0) -- (-0.8,0.8);
+    \draw[line width=0.6mm, black] (-0.8,0.8) -- (-0.7, 1.8);
+    \draw[line width=0.6mm, black] (-0.8,0.8) -- (-1.8,0.7);
+    %
+    \draw[line width=0.6mm, black!20] (0,0) -- (-0.8,-0.8);
+    \draw[line width=0.6mm, black] (-0.8,-0.8) -- (-1.8, -0.1);
+    \draw[line width=0.6mm, black] (-0.8,-0.8) -- (-0.95, -1.8);
+    %
+    \draw[line width=0.6mm, black!20] (1,0) -- (1.8,0.8);
+    \draw[line width=0.6mm, black] (1.8,0.8) -- (1.6, 1.8);
+    \draw[line width=0.6mm, black] (1.8,0.8) -- (2.8,0.7);
+    %
+    \draw[line width=0.6mm, black!20] (1,0) -- (1.8,-0.8);
+    \draw[line width=0.6mm, black] (1.8,-0.8) -- (2, -1.8);
+    \draw[line width=0.6mm, black] (1.8,-0.8) -- (2.8,-0.7);
+    \end{tikzpicture}
+    \label{fig:poll3}
+    }\hspace{5em}
+    \subfloat[] {    
+    \begin{tikzpicture}[scale=0.8]
+    % Boundaries
+    \draw[line width=0.6mm, red] (0,0) -- (1,0);
+    %
+    \draw[line width=0.6mm, black!20] (0,0) -- (-0.8,0.8);
+    \draw[line width=0.6mm, black] (-0.8,0.8) -- (-0.7, 1.8);
+    \draw[line width=0.6mm, black] (-0.8,0.8) -- (-1.8,0.7);
+    %
+    \draw[line width=0.6mm, black!20] (0,0) -- (-0.8,-0.8);
+    \draw[line width=0.6mm, black] (-0.8,-0.8) -- (-1.8, -0.1);
+    \draw[line width=0.6mm, black] (-0.8,-0.8) -- (-0.95, -1.8);
+    %
+    \draw[line width=0.6mm, black!20] (1,0) -- (1.8,0.8);
+    \draw[line width=0.6mm, black] (1.8,0.8) -- (1.6, 1.8);
+    \draw[line width=0.6mm, black] (1.8,0.8) -- (2.8,0.7);
+    %
+    \draw[line width=0.6mm, black!20] (1,0) -- (1.8,-0.8);
+    \draw[line width=0.6mm, black] (1.8,-0.8) -- (2, -1.8);
+    \draw[line width=0.6mm, black] (1.8,-0.8) -- (2.8,-0.7);
+    % Vertices
+    %\filldraw [Magenta] (0,0) circle (2pt);
+    \filldraw [RoyalBlue] (-0.8,0.8) circle (2pt);
+    \filldraw [Orange] (-0.8,-0.8) circle (2pt);
+    %\filldraw [Green] (1,0) circle (2pt);
+    \filldraw [Fuchsia] (1.8,0.8) circle (2pt);
+    \filldraw [TealBlue] (1.8,-0.8) circle (2pt);
+    % Votes
+    \node[draw=none, color=RoyalBlue] at (-0.5, 1.2) {$\checkmark$};
+    \node[draw=none, color=Orange] at (-1.4, -0.7) {$\checkmark$};
+    \node[draw=none, color=Fuchsia] at (2, 1.6) {$\checkmark$};
+    \node[draw=none, color=TealBlue] at (2.3, -0.45) {$\checkmark$};
+    \end{tikzpicture}
+    \label{fig:poll4}
+    }
+    \caption{Polling system scheme.}
+    \label{fig:pollingscheme}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Parallel Management - The Polling System}
+    \begin{algorithmic}[1]
+\Procedure{Poll}{$\mathcal{S}$}
+\State $\boundaries_{\text{flip}} \gets$ Clear boundaries count to 0 and vertices votes
+\State $\boundaries_{\text{flip}} \gets$ Vertices votes for their uninhibited boundary with lowest $t_{\text{ext}}$
+\State $\boundaries_{\text{flip}} \gets$ Boundaries counts the votes received
+\State $\boundaries_{\text{flip}} \gets$ Select uninhibited boundaries with two votes
+\State $\boundaries_{\text{flip}} \gets$ Inhibit neighbor boundaries
+\State \Return $\mathcal{S}$ \Comment{New inhibited state of boundaries}
+\EndProcedure
+\end{algorithmic}
+\end{frame}
+
+\begin{frame}{Parallel Management - The Polling System}
+    \begin{algorithmic}[1]
+\Procedure{PollingSystem}{boundaries $\boundaries$}
+\State $\boundaries \gets$ Clear flip and inhibited state for each boundary
+\State $\boundaries \gets$ Update $t_{\text{ext}}$ for each boundary
+\State $\boundaries_{\text{flip}} \gets$ Boundaries to flip with $t_{\text{ext}} \in [0, \Delta t]$
+\State $\mathcal{S}_0 \gets$ Initial inhibited state of boundaries
+%\State $convergence \gets$ False
+\For {$i: 1,\dotsc,n$}
+    \State $\mathcal{S}_i \gets \textsc{Poll}(\mathcal{S}_{i-1})$
+    \If{$\mathcal{S}_i = \mathcal{S}_{i-1}$}
+    \State \Return
+    \EndIf
+\EndFor
+\EndProcedure
+\end{algorithmic}
 \end{frame}
 
 \section[3D Implicit-transition Model]{More on the Implicit-transition Model for 3D Grain Growth}
